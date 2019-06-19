@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbManager;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
-
+import android.widget.Toast;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.android.SystemExtraActivity;
@@ -19,6 +18,7 @@ import com.android.factory.android.SystemExtraActivity;
 public class USBActivity extends TTSBaseActivity {
     public static final String ACTION_USB_STATE = "android.hardware.usb.action.USB_STATE";
     private boolean isUSBTestSuccess;
+    private static boolean isUSBChanged = false;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_usb);
@@ -94,8 +94,18 @@ public class USBActivity extends TTSBaseActivity {
             if (action != null && !"".equals(action)) {
                 if (action.equals(ACTION_USB_STATE) && intent.getExtras() != null){
                     boolean connected = intent.getExtras().getBoolean("connected");
-                    Log.d("mBroadcastReceiver","usb_connected------------>"+connected);
-                    systemUSBSpeech(connected);
+                    if (connected){
+                        if (!isUSBChanged){
+                            isUSBChanged = true;
+                            systemUSBSpeech(true);
+                        }
+                    }else {
+                        if (isUSBChanged){
+                            isUSBChanged = false;
+                            systemUSBSpeech(false);
+                        }
+                    }
+                    Toast.makeText(mContext,connected+"",Toast.LENGTH_SHORT).show();
                 }
             }
         }
