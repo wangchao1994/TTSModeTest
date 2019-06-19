@@ -44,8 +44,6 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private boolean isGpsSuccess;
     private boolean mSim1Exist = false;
     private boolean mSim2Exist = false;
-    private LocationManager mLocationManager;
-    private List<GpsSatellite> numSatelliteList = new ArrayList<GpsSatellite>();
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system);
@@ -59,44 +57,6 @@ public class SystemExtraActivity extends TTSBaseActivity {
         initWifiParams();
         initBluetoothParams();
         initSimParams();
-        initGPSParams();
-    }
-
-    private void initGPSParams() {
-        if(!getGpsState(this)){
-            Intent gpsIntent = new Intent();
-            gpsIntent.setClassName("com.android.settings","com.android.settings.widget.SettingsAppWidgetProvider");
-            gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
-            gpsIntent.setData(Uri.parse("custom:3"));
-            try {
-                PendingIntent.getBroadcast(this, 0, gpsIntent, 0).send();
-            }
-            catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
-            }
-            ContentResolver resolver = this.getContentResolver();
-            Settings.Secure.setLocationProviderEnabled(resolver, LocationManager.GPS_PROVIDER,false);
-            openGPSSettings();
-            setCurrentLocation();
-        }
-    }
-
-    private void setCurrentLocation() {
-        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        String provider = LocationManager.GPS_PROVIDER;
-        Location location = mLocationManager.getLastKnownLocation(provider);
-        if (location == null){
-            location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
-        mLocationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
-        mLocationManager.addGpsStatusListener(statusListener);
-    }
-
-    private void openGPSSettings() {
-        LocationManager mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (mLocationManager !=null && mLocationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-
-        }
     }
 
     private void initSimParams() {
@@ -143,7 +103,6 @@ public class SystemExtraActivity extends TTSBaseActivity {
 
     @Override
     public void handleMsg(Message msg) {
-
     }
 
     @Override
@@ -165,6 +124,8 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private void speechTestResult() {
         Log.d("system_log","isWifiSuccess------------>"+isWifiSuccess);
         Log.d("system_log","isBlueSuccess------------>"+isBlueSuccess);
+        Log.d("system_log","isSimSuccess------------>"+isSimSuccess);
+        Log.d("system_log","isGpsSuccess------------>"+isGpsSuccess);
         if (isWifiSuccess && isBlueSuccess && isSimSuccess && isGpsSuccess){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
@@ -184,6 +145,10 @@ public class SystemExtraActivity extends TTSBaseActivity {
             mBluetoothStateReceiver = null;
         }
         mGlobalHandler.removeCallbacks(startSystemRunnable);
+        closeReceiver();
+    }
+
+    private void closeReceiver() {
         if (mBluetoothAdapter != null){
             mBluetoothAdapter.disable();
             mBluetoothAdapter = null;
@@ -239,45 +204,5 @@ public class SystemExtraActivity extends TTSBaseActivity {
             startActivityIntent(this, ResetActivity.class);
         }
         return true;
-    }
-
-    private boolean getGpsState(Context context) {
-        ContentResolver resolver = context.getContentResolver();
-        boolean open = Settings.Secure.isLocationProviderEnabled(resolver, LocationManager.GPS_PROVIDER);
-        Log.d("system_log","open------------>"+open);
-        return open;
-    }
-
-    private final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-        }
-        public void onProviderDisabled(String provider) {
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
-
-    private final GpsStatus.Listener statusListener = new GpsStatus.Listener() {
-        public void onGpsStatusChanged(int event) {
-            GpsStatus status = mLocationManager.getGpsStatus(null);
-            updateGpsStatus(event, status);
-        }
-    };
-
-    private void updateGpsStatus(int event, GpsStatus status) {
-        if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
-            int maxSatellites = status.getMaxSatellites();
-            Iterator<GpsSatellite> it = status.getSatellites().iterator();
-            numSatelliteList.clear();
-            int count = 0;
-            while (it.hasNext() && count <= maxSatellites) {
-                GpsSatellite s = it.next();
-                numSatelliteList.add(s);
-                count++;
-            }
-        }
-        Log.d("gps_log","numSatelliteList--------------------->"+numSatelliteList.size());
     }
 }
