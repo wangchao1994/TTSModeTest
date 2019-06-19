@@ -2,11 +2,18 @@ package com.android.factory.reset;
 
 import android.content.Intent;
 import android.os.Message;
+import android.os.SystemClock;
+import android.util.Log;
+import android.view.KeyEvent;
 
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 
+/**
+ * 恢复出厂设置测试
+ */
 public class ResetActivity extends TTSBaseActivity {
+    private long[] mHits = new long[2];
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system_reset);
@@ -28,17 +35,7 @@ public class ResetActivity extends TTSBaseActivity {
     protected void systemTTSComplete() {
         super.systemTTSComplete();
         isTTSComplete = true;
-        if (mGlobalHandler != null){
-            mGlobalHandler.postDelayed(startResetRunnable,2*1000);
-        }
     }
-
-    private final Runnable startResetRunnable = new Runnable() {
-        @Override
-        public void run() {
-            startResetFactory();
-        }
-    };
 
     private void startResetFactory() {
         Intent intent = new Intent(Intent.ACTION_FACTORY_RESET);
@@ -51,8 +48,19 @@ public class ResetActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mGlobalHandler.removeCallbacks(startResetRunnable);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
+            voidStartReset();
+        }
+        return true;
+    }
+    //3S内连续2次
+    private void voidStartReset() {
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
+        mHits[mHits.length-1] = SystemClock.uptimeMillis();
+        Log.d("startReset","voidStartReset------------->"+mHits[0]);
+        if ((SystemClock.uptimeMillis()-mHits[0]) <= 3000) {
+            startResetFactory();
+        }
     }
 }

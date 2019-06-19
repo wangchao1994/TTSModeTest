@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import com.android.factory.android.SystemExtraActivity;
 import com.android.factory.device.DeviceVersionActivity;
 import com.android.factory.knob.KnobActivity;
+import com.android.factory.reset.ResetActivity;
 
 public class MainActivity extends TTSBaseActivity{
     @Override
@@ -32,7 +33,7 @@ public class MainActivity extends TTSBaseActivity{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            startActivityIntent(this, SystemExtraActivity.class);
+            startActivityIntent(this, ResetActivity.class);
         }
         return true;
     }

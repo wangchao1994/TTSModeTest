@@ -10,6 +10,9 @@ import com.android.factory.keycode.KeyCodeActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Led测试
+ */
 public class LEDActivity extends TTSBaseActivity {
     private int mCurrentShowIndex;
     private Timer mTimer = new Timer();

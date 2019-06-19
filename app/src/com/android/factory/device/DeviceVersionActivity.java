@@ -9,6 +9,10 @@ import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.imei.IMEIActivity;
 import android.os.SystemProperties;
+
+/**
+ * DeviceVersion Test
+ */
 public class DeviceVersionActivity extends TTSBaseActivity {
     @Override
     protected void initData() {

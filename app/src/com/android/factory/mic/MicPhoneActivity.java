@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import android.media.AudioSystem;
 
+/**
+ * MIC测试
+ */
 public class MicPhoneActivity extends TTSBaseActivity {
     private final String RECORD_PATH = Environment.getExternalStorageDirectory()+File.separator+ "micTestTTSAmr.amr";
     private static final int TEST_IDLE = 0;

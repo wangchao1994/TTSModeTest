@@ -18,10 +18,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Message;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +31,9 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import com.android.internal.telephony.PhoneConstants;
-
+/**
+ * System Test (wifi,blue,sim,gps)
+ */
 public class SystemExtraActivity extends TTSBaseActivity {
 
     private WifiManager mWifiManager;

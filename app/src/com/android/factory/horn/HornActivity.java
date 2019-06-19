@@ -10,16 +10,16 @@ import com.android.factory.TTSBaseActivity;
 import com.android.factory.usb.USBActivity;
 
 public class HornActivity extends TTSBaseActivity {
-
     private AudioManager audiomanager;
     private MediaPlayer mMediaPlayer;
+
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_horn);
         if (mSystemTTS != null){
             mSystemTTS.playText(mPlayText);
         }
-        //initAudioParams();
+        //initAudioParams();//初始化参数
     }
 
     private void initAudioParams() {
@@ -27,7 +27,7 @@ public class HornActivity extends TTSBaseActivity {
         if (audiomanager == null)return;
         audiomanager.setSpeakerphoneOn(true);
         audiomanager.setRouting(AudioManager.MODE_RINGTONE,AudioManager.ROUTE_EARPIECE,AudioManager.ROUTE_ALL);
-        setVolumeControlStream(AudioManager.STREAM_SYSTEM);
+        setVolumeControlStream(AudioManager.STREAM_RING);
         audiomanager.adjustVolume(AudioManager.ADJUST_RAISE,0);
         audiomanager.setStreamVolume(AudioManager.STREAM_MUSIC,audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
         audiomanager.setMode(AudioManager.MODE_IN_CALL);
@@ -58,7 +58,9 @@ public class HornActivity extends TTSBaseActivity {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
-        //audiomanager.setMode(AudioManager.MODE_NORMAL);
+        if (audiomanager != null){
+            audiomanager.setMode(AudioManager.MODE_NORMAL);
+        }
     }
 
     protected void playAudio(){

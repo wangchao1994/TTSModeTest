@@ -13,6 +13,9 @@ import com.android.factory.TTSBaseActivity;
 import com.android.factory.led.LEDActivity;
 import com.android.factory.mic.MicPhoneActivity;
 
+/**
+ * KNOB测试
+ */
 public class KnobActivity extends TTSBaseActivity {
     private static final String STEPLESS_KNOB_UP[]={
             "com.talkpod.channel.left",

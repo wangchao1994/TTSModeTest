@@ -13,6 +13,9 @@ import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.android.SystemExtraActivity;
 
+/**
+ * USB测试
+ */
 public class USBActivity extends TTSBaseActivity {
     public static final String ACTION_USB_STATE = "android.hardware.usb.action.USB_STATE";
     private boolean isUSBTestSuccess;

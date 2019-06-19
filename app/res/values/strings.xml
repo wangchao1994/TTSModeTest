@@ -19,7 +19,7 @@
     <string name="start_system">安卓系统测试</string>
     <string name="start_system_fail">系统测试失败</string>
     <string name="start_system_success">系统测试成功</string>
-    <string name="start_system_reset">恢复出厂设置测试,语音结束两秒后开始测试</string>
+    <string name="start_system_reset">恢复出厂设置测试,语音结束后开始测试</string>
 
 </resources>
 
