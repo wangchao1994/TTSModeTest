@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TTSFactoryMode</string>
+    <string name="start_test">开启工厂测试,请语音结束后按自定义按键开始测试</string>
+    <string name="start_version">系统版本测试,版本号:%1$s,时间:%2$s,请按自定义按键继续测试</string>
+    <string name="start_imei">IMEI测试,IMEI号:%1$s,按自定义键进入下一测试项</string>
+    <string name="start_keycode">按键测试,所有按键测试完成后方可进入下一测试项</string>
+    <string name="start_led">指示灯测试,红、蓝、绿，三色循环亮灯,按自定义键进入下一测试项</string>
+    <string name="start_headset">耳机测试，请插入耳机</string>
+    <string name="start_key_fail">按键测试失败,可重新按键测试</string>
+    <string name="start_key_success">按键测试成功,按自定义键进入下一测试项</string>
+    <string name="start_knob">旋钮测试,按自定义键进入下一测试项</string>
+    <string name="start_knob_fail">旋钮测试失败,可重新测试</string>
+    <string name="start_knob_success">旋钮测试成功</string>
+    <string name="start_mic">MIC测试,测试完成后按自定义键进入下一测试项</string>
+    <string name="start_horn">喇叭测试,测试完成后按自定义键进入下一测试项</string>
+    <string name="start_usb">USB测试,请插入USB</string>
+    <string name="start_usb_fail">USB测试失败</string>
+    <string name="start_usb_success">USB测试成功</string>
+    <string name="start_system">安卓系统测试</string>
+    <string name="start_system_fail">系统测试失败</string>
+    <string name="start_system_success">系统测试成功</string>
+    <string name="start_system_reset">恢复出厂设置测试,语音结束两秒后开始测试</string>
+
+</resources>
+
+

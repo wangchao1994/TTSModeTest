@@ -1,0 +1,308 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0a6b732cfd8229783403407910f2cc55/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/wangchao/.gradle/caches/transforms-2/files-2.1/12234241119e22ed8e787425658c305c/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.fragment:fragment:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/7e0e661e2b02cc50d0338c0a665ec540/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/01bc918438c45f80a0f24e21cdfdc3c8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/bc6998296b5bfb8cef173a03be3410c5/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/84a58d931afe982da45b69ffce9dfd31/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/8dbb646ce3b3884ae22dbbea6c65b0b0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c593355e0b07067a6a7ccf2a3fb379ea/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/cef9bab7bb06d1933efe29da3af783d2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/e63b9c9aa6e1b59dae548f3859d7dfc2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/644e64e95f127506eb1a160049e04539/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/577e9ab5a40468a55f18c0c6d6c87353/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4fedd46bc21a5ad404cce83c559fbff8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/70b2110a51378400b41368b98e28113b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/9a72a40ea5e764990dbd517742c58907/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0beeabd5a2329ea8e6857fd331d21294/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/3b52cb8509167940d2b083864a973d3e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/6b26d178c3f4664c20c4cb7040097dd9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/d32903bba9cab13008d2479c8c2a7509/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/a7d680e78f54f3002f7e0323311ed83d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/1881fcfe6962d7a653e0127353dabecd/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/50663a0f47fdecdd6d895e1039185d29/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/847009ecb0623b00b8828d248f30d6bf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/57b6809807fbf1a7ddfd5ed82f83c27b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4d1b77f470f233c0a3586f67145d6584/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/f284eceb4b61c47313ee885dac7e3777/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+	package
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:3:5-34
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+	android:sharedUserId
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:4:5-46
+	android:versionName
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:1-62:12
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:6:5-73
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:6:22-70
+uses-permission#android.permission.READ_SETTINGS
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:7:5-72
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:7:22-69
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:8:22-78
+uses-permission#android.permission.CALL_PHONE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:9:5-69
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:9:22-66
+uses-permission#android.permission.CAMERA
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:10:5-65
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:10:22-62
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:11:5-76
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:11:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:12:5-76
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:12:22-73
+uses-permission#android.permission.MODIFY_PHONE_STATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:13:5-77
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:13:22-74
+uses-permission#android.permission.DIAGNOSTIC
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:14:5-69
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:14:22-66
+uses-permission#android.permission.HARDWARE_TEST
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:15:5-72
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:15:22-69
+uses-permission#android.permission.INTERNET
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:16:5-67
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:16:22-64
+uses-permission#android.permission.ACCESS_BLUETOOTH_SHARE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:17:5-81
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:17:22-78
+uses-permission#android.permission.BLUETOOTH
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:18:5-68
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:18:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:19:5-74
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:19:22-71
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:20:22-76
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:21:5-79
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:21:22-76
+uses-permission#android.permission.ACCESS_MOCK_LOCATION
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:22:22-76
+uses-permission#android.permission.UPDATE_DEVICE_STATS
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:23:5-78
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:23:22-75
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:24:5-80
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:24:22-77
+uses-permission#android.permission.RESTART_PACKAGES
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:25:5-75
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:25:22-72
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:26:5-81
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:26:22-78
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:27:5-71
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:27:22-68
+uses-permission#android.permission.VIBRATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:28:5-66
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:28:22-63
+uses-permission#android.permission.WRITE_SECURE_SETTINGS
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:29:5-80
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:29:22-77
+uses-permission#android.permission.FLASHLIGHT
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:30:5-69
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:30:22-66
+uses-permission#android.permission.DISABLE_KEYGUARD
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:31:5-75
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:31:22-72
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:32:5-68
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:32:22-65
+uses-permission#android.permission.ACCESS_MTK_MMHW
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:34:5-74
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:34:22-71
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:35:5-75
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:35:22-72
+application
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:37:5-60:19
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/wangchao/.gradle/caches/transforms-2/files-2.1/12234241119e22ed8e787425658c305c/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/wangchao/.gradle/caches/transforms-2/files-2.1/12234241119e22ed8e787425658c305c/AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0beeabd5a2329ea8e6857fd331d21294/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0beeabd5a2329ea8e6857fd331d21294/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:42:9-35
+	android:label
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:40:9-41
+	android:roundIcon
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:41:9-54
+	android:icon
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:39:9-43
+	android:allowBackup
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:38:9-35
+	android:theme
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:43:9-40
+activity#com.android.factory.horn.HornActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:44:9-64
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:44:19-52
+activity#com.android.factory.mic.MicPhoneActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:45:9-58
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:45:19-55
+activity#com.android.factory.headset.HeadSetActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:46:9-61
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:46:19-58
+activity#com.android.factory.knob.KnobActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:47:9-55
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:47:19-52
+activity#com.android.factory.led.LEDActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:48:9-53
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:48:19-50
+activity#com.android.factory.imei.IMEIActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:49:9-55
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:49:19-52
+activity#com.android.factory.device.DeviceVersionActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:50:9-66
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:50:19-63
+activity#com.android.factory.keycode.KeyCodeActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:51:9-61
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:51:19-58
+activity#com.android.factory.MainActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:52:9-58:20
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:52:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:53:13-57:29
+action#android.intent.action.MAIN
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:54:17-69
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:54:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:56:17-77
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:56:27-74
+activity#com.android.factory.usb.USBActivity
+ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:59:9-53
+	android:name
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml:59:19-50
+uses-sdk
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0a6b732cfd8229783403407910f2cc55/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0a6b732cfd8229783403407910f2cc55/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/wangchao/.gradle/caches/transforms-2/files-2.1/12234241119e22ed8e787425658c305c/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/wangchao/.gradle/caches/transforms-2/files-2.1/12234241119e22ed8e787425658c305c/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.fragment:fragment:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/7e0e661e2b02cc50d0338c0a665ec540/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/7e0e661e2b02cc50d0338c0a665ec540/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/01bc918438c45f80a0f24e21cdfdc3c8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/01bc918438c45f80a0f24e21cdfdc3c8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/bc6998296b5bfb8cef173a03be3410c5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/bc6998296b5bfb8cef173a03be3410c5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/84a58d931afe982da45b69ffce9dfd31/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/84a58d931afe982da45b69ffce9dfd31/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/8dbb646ce3b3884ae22dbbea6c65b0b0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/8dbb646ce3b3884ae22dbbea6c65b0b0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c593355e0b07067a6a7ccf2a3fb379ea/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c593355e0b07067a6a7ccf2a3fb379ea/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/cef9bab7bb06d1933efe29da3af783d2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/cef9bab7bb06d1933efe29da3af783d2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/e63b9c9aa6e1b59dae548f3859d7dfc2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/e63b9c9aa6e1b59dae548f3859d7dfc2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/644e64e95f127506eb1a160049e04539/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/644e64e95f127506eb1a160049e04539/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/577e9ab5a40468a55f18c0c6d6c87353/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/577e9ab5a40468a55f18c0c6d6c87353/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4fedd46bc21a5ad404cce83c559fbff8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4fedd46bc21a5ad404cce83c559fbff8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/70b2110a51378400b41368b98e28113b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/70b2110a51378400b41368b98e28113b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/9a72a40ea5e764990dbd517742c58907/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/9a72a40ea5e764990dbd517742c58907/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/wangchao/.gradle/caches/transforms-2/files-2.1/c0abfe1b962fd25adf9e788a3360c3af/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0beeabd5a2329ea8e6857fd331d21294/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/0beeabd5a2329ea8e6857fd331d21294/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/3b52cb8509167940d2b083864a973d3e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/3b52cb8509167940d2b083864a973d3e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/6b26d178c3f4664c20c4cb7040097dd9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/6b26d178c3f4664c20c4cb7040097dd9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/d32903bba9cab13008d2479c8c2a7509/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/d32903bba9cab13008d2479c8c2a7509/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/a7d680e78f54f3002f7e0323311ed83d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/a7d680e78f54f3002f7e0323311ed83d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/1881fcfe6962d7a653e0127353dabecd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/1881fcfe6962d7a653e0127353dabecd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/50663a0f47fdecdd6d895e1039185d29/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/50663a0f47fdecdd6d895e1039185d29/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/847009ecb0623b00b8828d248f30d6bf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/847009ecb0623b00b8828d248f30d6bf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/57b6809807fbf1a7ddfd5ed82f83c27b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/57b6809807fbf1a7ddfd5ed82f83c27b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4d1b77f470f233c0a3586f67145d6584/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/4d1b77f470f233c0a3586f67145d6584/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/f284eceb4b61c47313ee885dac7e3777/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/wangchao/.gradle/caches/transforms-2/files-2.1/f284eceb4b61c47313ee885dac7e3777/AndroidManifest.xml:20:5-44
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		ADDED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
+		INJECTED from /home/wangchao/Desktop/TTSFactoryMode/app/AndroidManifest.xml
