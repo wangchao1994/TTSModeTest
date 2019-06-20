@@ -1,24 +1,17 @@
 package com.android.factory.imei;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Message;
 import android.telephony.TelephonyManager;
-import android.view.KeyEvent;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.led.LEDActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class IMEIActivity extends TTSBaseActivity {
-
+    private String mIMEIOneString;
+    private String mIMEITwoString;
     @Override
     protected void initData() {
         List<String> deviceIMEI = getDeviceIMEI();
@@ -39,7 +32,13 @@ public class IMEIActivity extends TTSBaseActivity {
 
     private void playText(List<String> deviceIMEI) {
         String mBuildPlayText = getResources().getString(R.string.start_imei);
-        String mPlayText = String.format(mBuildPlayText, deviceIMEI.get(0));
+        if (deviceIMEI != null && deviceIMEI.get(0) != null){
+            mIMEIOneString = deviceIMEI.get(0).substring(8);
+        }
+        if (deviceIMEI != null && deviceIMEI.get(1) != null){
+            mIMEITwoString = deviceIMEI.get(1).substring(8);
+        }
+        String mPlayText = String.format(mBuildPlayText, mIMEIOneString,mIMEITwoString);
         if (mSystemTTS != null){
             mSystemTTS.playText(mPlayText);
         }
@@ -59,13 +58,12 @@ public class IMEIActivity extends TTSBaseActivity {
         return mIMEIList;
     }
 
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            startActivityIntent(this, LEDActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, LEDActivity.class);
     }
+
     @Override
     public void handleMsg(Message msg) {
 

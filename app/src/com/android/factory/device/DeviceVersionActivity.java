@@ -3,8 +3,6 @@ package com.android.factory.device;
 
 import android.os.Build;
 import android.os.Message;
-import android.view.KeyEvent;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.imei.IMEIActivity;
@@ -46,11 +44,8 @@ public class DeviceVersionActivity extends TTSBaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            startActivityIntent(this, IMEIActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, IMEIActivity.class);
     }
 
     @Override

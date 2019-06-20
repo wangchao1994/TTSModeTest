@@ -3,7 +3,6 @@ package com.android.factory.led;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Message;
-import android.view.KeyEvent;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.keycode.KeyCodeActivity;
@@ -82,10 +81,7 @@ public class LEDActivity extends TTSBaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            startActivityIntent(this, KeyCodeActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, KeyCodeActivity.class);
     }
 }

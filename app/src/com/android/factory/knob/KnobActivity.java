@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Message;
+import android.os.UserHandle;
 import android.util.Log;
 import android.view.KeyEvent;
 
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
-import com.android.factory.led.LEDActivity;
+import com.android.factory.headset.HeadSetActivity;
 import com.android.factory.mic.MicPhoneActivity;
 
 /**
@@ -46,6 +47,7 @@ public class KnobActivity extends TTSBaseActivity {
     private boolean isPowerKeyDown;
     private boolean isPowerKeyUp;
     private boolean isAllTestSuccess;
+    private Intent mBroadCastIntent;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_knob);
@@ -53,6 +55,7 @@ public class KnobActivity extends TTSBaseActivity {
             mSystemTTS.playText(mPlayText);
         }
         registerCustomReceiver();
+        mBroadCastIntent = new Intent();
     }
 
     private void registerCustomReceiver() {
@@ -117,18 +120,30 @@ public class KnobActivity extends TTSBaseActivity {
         mGlobalHandler.removeCallbacks(mKnobTestResult);
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("knob_log","action onKeyDown------------>"+keyCode);
         switch (keyCode){
-            case KeyEvent.KEYCODE_BACK:
-                if (isTTSComplete){
-                    startActivityIntent(this, MicPhoneActivity.class);
-                }
-                break;
-            case KeyEvent.KEYCODE_EXTERNAL_1:
-                break;
+            case KeyEvent.KEYCODE_EXTERNAL_CHANNEL_DOWN:
+                sendBroadCastKnobDown();
+                return true;
+            case KeyEvent.KEYCODE_EXTERNAL_CHANNEL_UP:
+                sendBroadCastKnobUp();
+                return true;
+            case KeyEvent.KEYCODE_CODER_POWER_LEFT:
+                sendBroadCastPowerOn();
+                return true;
+            case KeyEvent.KEYCODE_CODER_POWER_RIGHT:
+                sendBroadCastPowerOff();
+                return true;
         }
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, HeadSetActivity.class);
     }
 
     private BroadcastReceiver mKnobBroadCastReceiver = new BroadcastReceiver() {
@@ -161,19 +176,43 @@ public class KnobActivity extends TTSBaseActivity {
     private void knobTestTTSPlay() {
         if (mGlobalHandler != null){
             mGlobalHandler.removeCallbacks(mKnobTestResult);
-            mGlobalHandler.postDelayed(mKnobTestResult,2000);
+            if (isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp){
+                mGlobalHandler.postDelayed(mKnobTestResult,2000);
+            }
         }
     }
 
     private final Runnable mKnobTestResult = new Runnable() {
         @Override
         public void run() {
-            if (isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp){
-                mGlobalHandler.removeCallbacks(startKnobCodeComplete);
-                isAllTestSuccess = true;
-                mSystemTTS.playText(getResources().getString(R.string.start_knob_success));
-            }
+            mGlobalHandler.removeCallbacks(startKnobCodeComplete);
+            isAllTestSuccess = true;
+            mSystemTTS.playText(getResources().getString(R.string.start_knob_success));
         }
     };
 
+    public void sendBroadCastKnobDown(){
+        for (String s : STEPLESS_KNOB_DOWN) {
+            mBroadCastIntent.setAction(s);
+            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
+        }
+    }
+    public void sendBroadCastKnobUp(){
+        for (String s : STEPLESS_KNOB_UP) {
+            mBroadCastIntent.setAction(s);
+            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
+        }
+    }
+    public void sendBroadCastPowerOn(){
+        for (String s : POWERKEY_ON) {
+            mBroadCastIntent.setAction(s);
+            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
+        }
+    }
+    public void sendBroadCastPowerOff(){
+        for (String s : POWERKEY_OFF) {
+            mBroadCastIntent.setAction(s);
+            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
+        }
+    }
 }

@@ -53,10 +53,14 @@ public class MicPhoneActivity extends TTSBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
             voidStartRecord();
-        }else if(keyCode == KeyEvent.KEYCODE_BACK){
-            startActivityIntent(this, HornActivity.class);
+            return true;
         }
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, HornActivity.class);
     }
 
     @Override
@@ -67,8 +71,9 @@ public class MicPhoneActivity extends TTSBaseActivity {
                 stopRecorder();
                 playRecordFile();
             }
+            return true;
         }
-        return true;
+        return super.onKeyUp(keyCode, event);
     }
 
     private void stopRecorder(){

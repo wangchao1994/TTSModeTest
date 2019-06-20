@@ -67,43 +67,51 @@ public class KeyCodeActivity extends TTSBaseActivity {
             case KeyEvent.KEYCODE_BACK://有屏暂时代替测试
                 if (!isTTSComplete){
                     key_external_1_tested = true;
-                }else{
+                    voidStartIntentNextTestItem();
+                }else if(event.getRepeatCount() == 0){
                     startActivityIntent(this, KnobActivity.class);
                 }
-                break;
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_1:
                 key_external_1_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_PTT_TX:
                 key_external_ptt_tx_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_2:
                 key_external_2_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_SOS:
                 key_external_sos_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
         }
-        voidStartIntentNextTestItem();
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void startActivityIntentClass() {
     }
 
     private void voidStartIntentNextTestItem() {
         startPlaySystemRing(mContext);
         if (mGlobalHandler != null){
             mGlobalHandler.removeCallbacks(mKeyTestResult);
-            mGlobalHandler.postDelayed(mKeyTestResult,2000);
+            if (key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested /*&&key_external_sos_tested*/){
+                mGlobalHandler.postDelayed(mKeyTestResult,2000);
+            }
         }
     }
 
     private final Runnable mKeyTestResult = new Runnable() {
         @Override
         public void run() {
-            if (key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested /*&&key_external_sos_tested*/){
-                mGlobalHandler.removeCallbacks(startKeyCodeComplete);
-                isKeyCodeSuccess = true;
-                mSystemTTS.playText(getResources().getString(R.string.start_key_success));
-            }
+            mGlobalHandler.removeCallbacks(startKeyCodeComplete);
+            isKeyCodeSuccess = true;
+            mSystemTTS.playText(getResources().getString(R.string.start_key_success));
         }
     };
 

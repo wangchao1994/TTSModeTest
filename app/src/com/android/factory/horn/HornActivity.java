@@ -70,10 +70,7 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            startActivityIntent(this, USBActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, USBActivity.class);
     }
 }

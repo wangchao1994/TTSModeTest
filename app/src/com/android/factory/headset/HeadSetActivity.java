@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
+import com.android.factory.mic.MicPhoneActivity;
 
 import java.io.File;
 import java.io.FileReader;
@@ -67,8 +68,14 @@ public class HeadSetActivity extends TTSBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
             voidStartRecord();
+            return true;
         }
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, MicPhoneActivity.class);
     }
 
     private void voidStartRecord() {
@@ -147,8 +154,9 @@ public class HeadSetActivity extends TTSBaseActivity {
                     playRecordFile();
                 }
             }
+            return true;
         }
-        return true;
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override

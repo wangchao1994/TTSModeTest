@@ -1,35 +1,22 @@
 package com.android.factory.android;
 
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.os.Message;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import android.os.ServiceManager;
 import com.android.factory.reset.ResetActivity;
 import com.android.internal.telephony.ITelephony;
 import android.os.RemoteException;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.KeyEvent;
 import com.android.internal.telephony.PhoneConstants;
 /**
  * System Test (wifi,blue,sim,gps)
@@ -126,7 +113,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         Log.d("system_log","isBlueSuccess------------>"+isBlueSuccess);
         Log.d("system_log","isSimSuccess------------>"+isSimSuccess);
         Log.d("system_log","isGpsSuccess------------>"+isGpsSuccess);
-        if (isWifiSuccess && isBlueSuccess && isSimSuccess && isGpsSuccess){
+        if (isWifiSuccess && isBlueSuccess && isSimSuccess /*&& isGpsSuccess*/){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
             mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
@@ -199,10 +186,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            startActivityIntent(this, ResetActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, ResetActivity.class);
     }
 }

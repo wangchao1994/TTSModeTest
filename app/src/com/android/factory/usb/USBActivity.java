@@ -40,10 +40,10 @@ public class USBActivity extends TTSBaseActivity {
     @Override
     protected void systemTTSComplete() {
         super.systemTTSComplete();
-        isTTSComplete = true;
         if (mGlobalHandler != null && !isUSBTestSuccess){
             mGlobalHandler.postDelayed(startUSBFailRunnable,20*1000);
         }
+        isTTSComplete = true;
     }
 
     private final Runnable startUSBFailRunnable = new Runnable() {
@@ -56,11 +56,8 @@ public class USBActivity extends TTSBaseActivity {
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            startActivityIntent(this, SystemExtraActivity.class);
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, SystemExtraActivity.class);
     }
 
     @Override
@@ -68,6 +65,7 @@ public class USBActivity extends TTSBaseActivity {
         super.onPause();
         unRegisterUsbActionReceiver();
         mGlobalHandler.removeCallbacks(startUSBFailRunnable);
+        mGlobalHandler.removeCallbacks(startUSBSuccessRunnable);
     }
 
     public void usbRegisterReceiver(){
@@ -115,7 +113,18 @@ public class USBActivity extends TTSBaseActivity {
         if (connected && mSystemTTS != null){
             isUSBTestSuccess = true;
             mGlobalHandler.removeCallbacks(startUSBFailRunnable);
-            mSystemTTS.playText(getResources().getString(R.string.start_usb_success));
+            mGlobalHandler.postDelayed(startUSBSuccessRunnable,2000);
+
         }
     }
+
+    private final Runnable startUSBSuccessRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mSystemTTS != null){
+                mSystemTTS.playText(getResources().getString(R.string.start_usb_success));
+            }
+        }
+    };
+
 }

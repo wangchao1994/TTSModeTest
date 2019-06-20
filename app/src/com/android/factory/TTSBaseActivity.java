@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.SystemTTS;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.android.factory.handler.GlobalHandler;
@@ -48,10 +49,47 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     protected void systemTTSComplete() {
     }
-
     private void systemTTSError() {
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
+            if (mGlobalHandler != null){
+                mGlobalHandler.postDelayed(startRepeatFactoryMode,3000);
+            }
+            if (event.getRepeatCount() == 0){
+                startActivityIntentClass();
+            }
+        }
+        return true;
+    }
+    protected abstract void startActivityIntentClass();
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+            removeRepeatFactoryMode();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
+    private final Runnable startRepeatFactoryMode = new Runnable() {
+        @Override
+        public void run() {
+            startActivityIntent(mContext,MainActivity.class);
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        removeRepeatFactoryMode();
+    }
+
+    public void removeRepeatFactoryMode(){
+        if (mGlobalHandler != null){
+            mGlobalHandler.removeCallbacks(startRepeatFactoryMode);
+        }
+    }
 }

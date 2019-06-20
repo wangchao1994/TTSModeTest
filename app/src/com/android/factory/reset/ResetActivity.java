@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.KeyEvent;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 
@@ -48,12 +46,10 @@ public class ResetActivity extends TTSBaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
-            voidStartReset();
-        }
-        return true;
+    protected void startActivityIntentClass() {
+        voidStartReset();
     }
+
     //3S内连续2次
     private void voidStartReset() {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
