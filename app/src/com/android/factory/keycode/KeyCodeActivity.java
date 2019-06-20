@@ -65,31 +65,26 @@ public class KeyCodeActivity extends TTSBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
             case KeyEvent.KEYCODE_BACK://有屏暂时代替测试
+                break;
+            case KeyEvent.KEYCODE_EXTERNAL_1://无屏测试
                 if (!isTTSComplete){
                     key_external_1_tested = true;
-                    voidStartIntentNextTestItem();
                 }else if(event.getRepeatCount() == 0){
                     startActivityIntent(this, KnobActivity.class);
                 }
-                return true;
-            case KeyEvent.KEYCODE_EXTERNAL_1:
-                key_external_1_tested = true;
-                voidStartIntentNextTestItem();
-                return true;
+                break;
             case KeyEvent.KEYCODE_EXTERNAL_PTT_TX:
                 key_external_ptt_tx_tested = true;
-                voidStartIntentNextTestItem();
-                return true;
+                break;
             case KeyEvent.KEYCODE_EXTERNAL_2:
                 key_external_2_tested = true;
-                voidStartIntentNextTestItem();
-                return true;
+                break;
             case KeyEvent.KEYCODE_EXTERNAL_SOS:
                 key_external_sos_tested = true;
-                voidStartIntentNextTestItem();
-                return true;
+                break;
         }
-        return super.onKeyDown(keyCode, event);
+        voidStartIntentNextTestItem();
+        return true;
     }
 
     @Override
@@ -100,12 +95,15 @@ public class KeyCodeActivity extends TTSBaseActivity {
         startPlaySystemRing(mContext);
         if (mGlobalHandler != null){
             mGlobalHandler.removeCallbacks(mKeyTestResult);
-            if (key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested /*&&key_external_sos_tested*/){
+            if (isKeyCodeComplete()){
                 mGlobalHandler.postDelayed(mKeyTestResult,2000);
             }
         }
     }
 
+    public boolean isKeyCodeComplete(){
+        return key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested /*&&key_external_sos_tested*/;
+    }
     private final Runnable mKeyTestResult = new Runnable() {
         @Override
         public void run() {

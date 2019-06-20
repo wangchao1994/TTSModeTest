@@ -52,7 +52,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //有屏暂时代替测试
+        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1 && isTTSComplete) { //无屏测试 有屏KEYCODE_BACK
             if (mGlobalHandler != null){
                 mGlobalHandler.postDelayed(startRepeatFactoryMode,3000);
             }

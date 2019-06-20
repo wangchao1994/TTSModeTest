@@ -162,6 +162,7 @@ public class KnobActivity extends TTSBaseActivity {
             if (mCurrentAction != null && !"".equals(mCurrentAction)){
                 compareCurrentAction(mCurrentAction);
             }
+            Log.d("knob_log","isKnobTestComplete------------>"+isKnobTestComplete());
             if (isKnobTestComplete()){
                 knobTestTTSPlay();
             }
@@ -241,6 +242,6 @@ public class KnobActivity extends TTSBaseActivity {
     }
 
     public boolean isReceiverComplete(){
-        return mKnobKeyDownResult == 1 && mKnobKeyUpResult ==1  && mPowerOnResult ==1 && mPowerOffResult == 1;
+        return mKnobKeyDownResult == 1 && mKnobKeyUpResult ==1  && mPowerOnResult == 1 && mPowerOffResult == 1;
     }
 }
