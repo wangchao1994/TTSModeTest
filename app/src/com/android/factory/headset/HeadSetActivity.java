@@ -16,18 +16,17 @@ import com.android.factory.TTSBaseActivity;
 import com.android.factory.mic.MicPhoneActivity;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class HeadSetActivity extends TTSBaseActivity {
-    private final String RECORD_PATH = Environment.getExternalStorageDirectory()+File.separator+ "HeadSetTestTTSAmr.amr";
+    private final String RECORD_PATH = Environment.getExternalStorageDirectory() + File.separator + "HeadSetTestTTSAmr.amr";
     private static final int TEST_IDLE = 0;
     private static final int TEST_RECORDERING = 1;
-    private static final int TEST_PLAYYING =2;
+    private static final int TEST_PLAYYING = 2;
     private int curTestState = TEST_IDLE;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
-    private boolean headSetConnected = false;
+    private boolean headSetConnected;
 
     @Override
     protected void initData() {
@@ -35,7 +34,7 @@ public class HeadSetActivity extends TTSBaseActivity {
         registerHeadSet();
     }
 
-    public void playHeadSetText(){
+    public void playHeadSetText() {
         String mPlayText = getResources().getString(R.string.start_headset);
         if (mSystemTTS != null) {
             mSystemTTS.playText(mPlayText);
@@ -79,21 +78,21 @@ public class HeadSetActivity extends TTSBaseActivity {
     }
 
     private void voidStartRecord() {
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            if(curTestState == TEST_IDLE){
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            if (curTestState == TEST_IDLE) {
                 curTestState = TEST_RECORDERING;
                 startRecord();
-            }else if(curTestState == TEST_PLAYYING){
+            } else if (curTestState == TEST_PLAYYING) {
                 curTestState = TEST_IDLE;
                 stopPlay();
             }
         }
     }
 
-    private void playRecordFile(){
+    private void playRecordFile() {
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.reset();
-        try{
+        try {
             mMediaPlayer.setDataSource(RECORD_PATH);
             mMediaPlayer.prepare();
             mMediaPlayer.start();
@@ -106,15 +105,15 @@ public class HeadSetActivity extends TTSBaseActivity {
 
     private void startRecord() {
         File mOutRecordFile = new File(RECORD_PATH);
-        if (!mOutRecordFile.exists()){
+        if (!mOutRecordFile.exists()) {
             try {
                 boolean newFile = mOutRecordFile.createNewFile();
-                Log.d("startRecord","create newFile------->"+newFile);
+                Log.d("startRecord", "create newFile------->" + newFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (mMediaRecorder == null){
+        if (mMediaRecorder == null) {
             mMediaRecorder = new MediaRecorder();
         }
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -129,26 +128,27 @@ public class HeadSetActivity extends TTSBaseActivity {
         }
     }
 
-    private void stopRecorder(){
+    private void stopRecorder() {
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
         }
     }
 
-    private void stopPlay(){
+    private void stopPlay() {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
     }
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX){
-            if (getHeadsetState() == 0){
+        if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
+            if (!headSetConnected) {
                 playHeadSetText();
-            }else{
-                if(curTestState == TEST_RECORDERING){
+            } else {
+                if (curTestState == TEST_RECORDERING) {
                     curTestState = TEST_PLAYYING;
                     stopRecorder();
                     playRecordFile();
@@ -164,7 +164,7 @@ public class HeadSetActivity extends TTSBaseActivity {
         super.onPause();
         release();
         deleteFile();
-        if (mIntentReceiver != null){
+        if (mIntentReceiver != null) {
             unregisterReceiver(mIntentReceiver);
             mIntentReceiver = null;
         }
@@ -180,9 +180,9 @@ public class HeadSetActivity extends TTSBaseActivity {
         }
     }
 
-    private void release(){
-        try{
-            if(curTestState == TEST_RECORDERING){
+    private void release() {
+        try {
+            if (curTestState == TEST_RECORDERING) {
                 stopRecorder();
             }
             if (mMediaRecorder != null) {
@@ -196,7 +196,7 @@ public class HeadSetActivity extends TTSBaseActivity {
                 mMediaRecorder = null;
             }
         } catch (Exception e) {
-            Log.d("startRecord","release Exception------->"+e.getMessage());
+            Log.d("startRecord", "release Exception------->" + e.getMessage());
         }
     }
 
@@ -204,39 +204,28 @@ public class HeadSetActivity extends TTSBaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action != null && !"".equals(action)){
-                doCurrentHeadSetAction(action,intent);
+            if (action != null && !"".equals(action)) {
+                doCurrentHeadSetAction(action, intent);
             }
         }
     };
 
-    private void doCurrentHeadSetAction(String action,Intent intent) {
-        if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
+    private void doCurrentHeadSetAction(String action, Intent intent) {
+        if (action.equals(Intent.ACTION_HEADSET_PLUG) && intent.hasExtra("state")) {
             int currentHeatSet = intent.getIntExtra("state", 0);
-            Log.d("currentHeatSet","currentHeatSet--------------->"+currentHeatSet);
-            if(currentHeatSet == 0){
-                if(curTestState == TEST_RECORDERING){
+            Log.d("currentHeatSet", "currentHeatSet--------------->" + currentHeatSet);
+            if (headSetConnected && currentHeatSet == 0) {
+                headSetConnected = false;
+                if (curTestState == TEST_RECORDERING) {
                     curTestState = TEST_IDLE;
                     stopRecorder();
-                }else if(curTestState == TEST_PLAYYING){
+                } else if (curTestState == TEST_PLAYYING) {
                     curTestState = TEST_IDLE;
                     stopPlay();
                 }
+            } else if (!headSetConnected && currentHeatSet == 1) {
+                headSetConnected = true;
             }
-        }
-    }
-
-    private static final String HEADSET_STATE_PATH = "/sys/class/switch/h2w/state";
-    public static int getHeadsetState() {
-        try {
-            FileReader file = new FileReader(HEADSET_STATE_PATH);
-            char[] buffer = new char[1024];
-            int len = file.read(buffer, 0, 1024);
-            int headsetState = Integer.valueOf((new String(buffer, 0, len)).trim());
-            Log.v("HeadsetState", "HeadsetState---------------" + headsetState);
-            return headsetState;
-        } catch (Exception e) {
-            return 0;
         }
     }
 }
