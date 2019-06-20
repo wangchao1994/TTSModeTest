@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.os.Message;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
@@ -121,20 +119,20 @@ public class SystemExtraActivity extends TTSBaseActivity {
         if (isSystemTestComplete()){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
-            if (!isWifiSuccess){
+            if (true){
+                mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
+            }else if (!isWifiSuccess){
                 mSystemTTS.playText(getResources().getString(R.string.start_system_wifi_fail));
             }else if(!isBlueSuccess){
                 mSystemTTS.playText(getResources().getString(R.string.start_system_blue_fail));
-            }else if(isSimSuccess){
+            }else if(!isSimSuccess){
                 mSystemTTS.playText(getResources().getString(R.string.start_system_sim_fail));
-            }else {
-                mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
             }
         }
     }
 
     public boolean isSystemTestComplete(){
-        return isWifiSuccess && isBlueSuccess /*&& isSimSuccess*/;
+        return isWifiSuccess && isBlueSuccess && isSimSuccess;
     }
 
     @Override
@@ -166,37 +164,30 @@ public class SystemExtraActivity extends TTSBaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.d("system_log","onReceive wifi------------>");
-            if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)){
+            Log.d("system_log", "onReceive wifi------------>");
+            if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
                 List<ScanResult> scanResults = mWifiManager.getScanResults();
-                for (int i = scanResults.size() - 1; i >= 0; i--){
+                for (int i = scanResults.size() - 1; i >= 0; i--) {
                     String mCurrentSSID = scanResults.get(i).SSID;
-                    Log.d("system_log","mCurrentSSID------------>"+mCurrentSSID);
-                    if (mCurrentSSID != null && !"".equals(mCurrentSSID)){
+                    Log.d("system_log", "mCurrentSSID------------>" + mCurrentSSID);
+                    if (mCurrentSSID != null && !"".equals(mCurrentSSID)) {
                         isWifiSuccess = true;
                     }
                 }
-            }else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
-                Log.d("system_log","onReceive wifi--WIFI_STATE_CHANGED_ACTION---------->");
-                Bundle bundle = intent.getExtras();
-                if (bundle != null){
-                    int newStateInt = bundle.getInt("wifi_state");
-                    if(newStateInt==WifiManager.WIFI_STATE_DISABLED) {
-                        onWifiStateChange();
-                    }
+            } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
+                Log.d("system_log", "onReceive wifi--WIFI_STATE_CHANGED_ACTION---------->");
+                int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
+                switch (wifiState) {
+                    case WifiManager.WIFI_STATE_ENABLED:
+                        mWifiManager.startScan();
+                        break;
+                    case WifiManager.WIFI_STATE_DISABLED:
+                        break;
                 }
             }
         }
     };
 
-    private void onWifiStateChange() {
-        WifiInfo info = mWifiManager.getConnectionInfo();
-        if(info != null) {
-            String wifiSSID = info.getSSID();
-            isWifiSuccess = true;
-            Log.d("system_log","onReceive wifi--onWifiStateChange---------->"+wifiSSID);
-        }
-    }
 
     private BroadcastReceiver mBluetoothStateReceiver = new BroadcastReceiver() {
         @Override

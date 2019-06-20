@@ -5,9 +5,7 @@ import android.app.NotificationManager;
 import android.app.NotificationChannel;
 import android.content.Context;
 import android.graphics.Color;
-
 import com.android.factory.R;
-
 
 public class LEDUtil {
     public static final int COLOR_OFF = -1;// 熄灭LED 灯
@@ -17,16 +15,9 @@ public class LEDUtil {
     public static final int COLOR_LOGGING = 3;// 登录中...
     /**
      * 通知亮灯
-     * <p>
      * ledID 编号
-     * </p>
-     * <p>
      * ledARGB 灯光颜色  A 即 Alpha（透明度） 0x00 透明 0xFF 为不透明
-     * </p>
-     * <p>
      * ledOnMS 灯亮的时间 单位毫秒 1000 , 2000 , ...
-     * </p>
-     * <p>
      * ledOffMS 灯灭的时间 单位毫秒 1000 , 2000 , ...
      * </p>
      */

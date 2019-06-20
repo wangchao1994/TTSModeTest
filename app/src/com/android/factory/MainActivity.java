@@ -2,13 +2,7 @@ package com.android.factory;
 
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
-
-import com.android.factory.android.SystemExtraActivity;
 import com.android.factory.device.DeviceVersionActivity;
-import com.android.factory.knob.KnobActivity;
-import com.android.factory.reset.ResetActivity;
-import com.android.factory.usb.USBActivity;
 
 public class MainActivity extends TTSBaseActivity{
     @Override
@@ -33,7 +27,7 @@ public class MainActivity extends TTSBaseActivity{
 
     @Override
     protected void startActivityIntentClass() {
-        startActivityIntent(this, SystemExtraActivity.class);
+        startActivityIntent(this, DeviceVersionActivity.class);
     }
 
     @Override

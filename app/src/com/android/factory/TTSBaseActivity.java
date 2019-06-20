@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.SystemTTS;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
-
 import com.android.factory.handler.GlobalHandler;
 
 public abstract class TTSBaseActivity extends Activity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete{
@@ -74,6 +72,12 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
         return super.onKeyUp(keyCode, event);
     }
 
+    public void removeRepeatFactoryMode(){
+        if (mGlobalHandler != null){
+            mGlobalHandler.removeCallbacks(startRepeatFactoryMode);
+        }
+    }
+
     private final Runnable startRepeatFactoryMode = new Runnable() {
         @Override
         public void run() {
@@ -87,9 +91,5 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
         removeRepeatFactoryMode();
     }
 
-    public void removeRepeatFactoryMode(){
-        if (mGlobalHandler != null){
-            mGlobalHandler.removeCallbacks(startRepeatFactoryMode);
-        }
-    }
+
 }
