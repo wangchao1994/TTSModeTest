@@ -33,7 +33,7 @@ public class MainActivity extends TTSBaseActivity{
 
     @Override
     protected void startActivityIntentClass() {
-        startActivityIntent(this, DeviceVersionActivity.class);
+        startActivityIntent(this, SystemExtraActivity.class);
     }
 
     @Override

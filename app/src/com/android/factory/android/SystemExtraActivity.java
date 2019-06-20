@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Message;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
@@ -53,6 +55,9 @@ public class SystemExtraActivity extends TTSBaseActivity {
             mSim2Exist = iTelephony.hasIccCardUsingSlotIndex(PhoneConstants.SIM_ID_2);
             Log.d("system_log","mSim1Exist------------>"+mSim1Exist);
             Log.d("system_log","mSim2Exist------------>"+mSim2Exist);
+            if (mSim1Exist || mSim2Exist){
+                isSimSuccess = true;
+            }
         }catch (RemoteException e){
             Log.d("system_log","RemoteException-RemoteException----------->"+e.getMessage());
         }
@@ -113,11 +118,23 @@ public class SystemExtraActivity extends TTSBaseActivity {
         Log.d("system_log","isBlueSuccess------------>"+isBlueSuccess);
         Log.d("system_log","isSimSuccess------------>"+isSimSuccess);
         Log.d("system_log","isGpsSuccess------------>"+isGpsSuccess);
-        if (isWifiSuccess && isBlueSuccess && isSimSuccess /*&& isGpsSuccess*/){
+        if (isSystemTestComplete()){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
-            mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
+            if (!isWifiSuccess){
+                mSystemTTS.playText(getResources().getString(R.string.start_system_wifi_fail));
+            }else if(!isBlueSuccess){
+                mSystemTTS.playText(getResources().getString(R.string.start_system_blue_fail));
+            }else if(isSimSuccess){
+                mSystemTTS.playText(getResources().getString(R.string.start_system_sim_fail));
+            }else {
+                mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
+            }
         }
+    }
+
+    public boolean isSystemTestComplete(){
+        return isWifiSuccess && isBlueSuccess /*&& isSimSuccess*/;
     }
 
     @Override
@@ -149,6 +166,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            Log.d("system_log","onReceive wifi------------>");
             if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)){
                 List<ScanResult> scanResults = mWifiManager.getScanResults();
                 for (int i = scanResults.size() - 1; i >= 0; i--){
@@ -158,9 +176,27 @@ public class SystemExtraActivity extends TTSBaseActivity {
                         isWifiSuccess = true;
                     }
                 }
+            }else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
+                Log.d("system_log","onReceive wifi--WIFI_STATE_CHANGED_ACTION---------->");
+                Bundle bundle = intent.getExtras();
+                if (bundle != null){
+                    int newStateInt = bundle.getInt("wifi_state");
+                    if(newStateInt==WifiManager.WIFI_STATE_DISABLED) {
+                        onWifiStateChange();
+                    }
+                }
             }
         }
     };
+
+    private void onWifiStateChange() {
+        WifiInfo info = mWifiManager.getConnectionInfo();
+        if(info != null) {
+            String wifiSSID = info.getSSID();
+            isWifiSuccess = true;
+            Log.d("system_log","onReceive wifi--onWifiStateChange---------->"+wifiSSID);
+        }
+    }
 
     private BroadcastReceiver mBluetoothStateReceiver = new BroadcastReceiver() {
         @Override

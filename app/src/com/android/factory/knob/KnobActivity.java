@@ -12,8 +12,6 @@ import android.view.KeyEvent;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.headset.HeadSetActivity;
-import com.android.factory.mic.MicPhoneActivity;
-
 /**
  * KNOB测试
  */
@@ -42,12 +40,18 @@ public class KnobActivity extends TTSBaseActivity {
             "com.comlins.soft.power.off",
             "com.xwh.action.POWERKEY_OFF"
     };
+
     private boolean isKnobKeyDown;
     private boolean isKnobKeyUp;
     private boolean isPowerKeyDown;
     private boolean isPowerKeyUp;
     private boolean isAllTestSuccess;
     private Intent mBroadCastIntent;
+    private int mKnobKeyDownResult;
+    private int mKnobKeyUpResult;
+    private int mPowerOnResult;
+    private int mPowerOffResult;
+
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_knob);
@@ -127,15 +131,19 @@ public class KnobActivity extends TTSBaseActivity {
         switch (keyCode){
             case KeyEvent.KEYCODE_EXTERNAL_CHANNEL_DOWN:
                 sendBroadCastKnobDown();
+                isKnobKeyDown = true;
                 return true;
             case KeyEvent.KEYCODE_EXTERNAL_CHANNEL_UP:
                 sendBroadCastKnobUp();
+                isKnobKeyUp = true;
                 return true;
             case KeyEvent.KEYCODE_CODER_POWER_LEFT:
                 sendBroadCastPowerOn();
+                isPowerKeyDown = true;
                 return true;
             case KeyEvent.KEYCODE_CODER_POWER_RIGHT:
                 sendBroadCastPowerOff();
+                isPowerKeyUp = true;
                 return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -154,31 +162,44 @@ public class KnobActivity extends TTSBaseActivity {
             if (mCurrentAction != null && !"".equals(mCurrentAction)){
                 compareCurrentAction(mCurrentAction);
             }
-            knobTestTTSPlay();
+            if (isKnobTestComplete()){
+                knobTestTTSPlay();
+            }
         }
     };
 
+    private boolean isKnobTestComplete() {
+        return isKeyDownComplete() && isReceiverComplete();
+    }
+
+
     private void compareCurrentAction(String mCurrentAction) {
-        if (mCurrentAction.equals(STEPLESS_KNOB_UP[0])){
-            isKnobKeyDown = true;
+        for (String s : STEPLESS_KNOB_UP) {
+            if (mCurrentAction.equals(s)) {
+                mKnobKeyDownResult = 1;
+            }
         }
-        if (mCurrentAction.equals(STEPLESS_KNOB_DOWN[0])){
-            isKnobKeyUp = true;
+        for (String s : STEPLESS_KNOB_DOWN) {
+            if (mCurrentAction.equals(s)) {
+                mKnobKeyUpResult = 1;
+            }
         }
-        if (mCurrentAction.equals(POWERKEY_ON[0])){
-            isPowerKeyDown = true;
+        for (String s : POWERKEY_ON) {
+            if (mCurrentAction.equals(s)) {
+                mPowerOnResult = 1;
+            }
         }
-        if (mCurrentAction.equals(POWERKEY_OFF[0])){
-            isPowerKeyUp = true;
+        for (String s : POWERKEY_OFF) {
+            if (mCurrentAction.equals(s)) {
+                mPowerOffResult = 1;
+            }
         }
     }
 
     private void knobTestTTSPlay() {
         if (mGlobalHandler != null){
             mGlobalHandler.removeCallbacks(mKnobTestResult);
-            if (isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp){
-                mGlobalHandler.postDelayed(mKnobTestResult,2000);
-            }
+            mGlobalHandler.postDelayed(mKnobTestResult,2000);
         }
     }
 
@@ -214,5 +235,12 @@ public class KnobActivity extends TTSBaseActivity {
             mBroadCastIntent.setAction(s);
             mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
         }
+    }
+    public boolean isKeyDownComplete(){
+        return isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp;
+    }
+
+    public boolean isReceiverComplete(){
+        return mKnobKeyDownResult == 1 || mKnobKeyUpResult ==1  || mPowerOnResult ==1 || mPowerOffResult == 1;
     }
 }

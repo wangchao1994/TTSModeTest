@@ -17,9 +17,12 @@
     <string name="start_usb_fail">USB测试失败</string>
     <string name="start_usb_success">USB测试成功</string>
     <string name="start_system">安卓系统测试</string>
-    <string name="start_system_fail">系统测试失败</string>
-    <string name="start_system_success">系统测试成功</string>
-    <string name="start_system_reset">恢复出厂设置测试,语音结束后开始测试</string>
+    <string name="start_system_fail">测试完成,系统测试失败</string>
+    <string name="start_system_success">测试完成,系统测试成功</string>
+    <string name="start_system_blue_fail">测试完成,系统蓝牙测试失败</string>
+    <string name="start_system_wifi_fail">测试完成,系统WI-Fi测试失败</string>
+    <string name="start_system_sim_fail">测试完成,系统Sim卡测试失败</string>
+    <string name="start_system_reset">恢复出厂设置测试,语音结束后按自定义按键开始测试</string>
 
 </resources>
 
