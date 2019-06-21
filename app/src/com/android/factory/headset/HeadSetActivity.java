@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.mic.MicPhoneActivity;
@@ -26,7 +25,6 @@ public class HeadSetActivity extends TTSBaseActivity {
     private int curTestState = TEST_IDLE;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
-    private boolean headSetConnected;
 
     @Override
     protected void initData() {
@@ -45,7 +43,7 @@ public class HeadSetActivity extends TTSBaseActivity {
         IntentFilter mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(Intent.ACTION_TIME_TICK);
         mIntentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
-        this.registerReceiver(mIntentReceiver, mIntentFilter);
+        registerReceiver(mIntentReceiver, mIntentFilter);
     }
 
     @Override
@@ -82,15 +80,20 @@ public class HeadSetActivity extends TTSBaseActivity {
             if (curTestState == TEST_IDLE) {
                 curTestState = TEST_RECORDERING;
                 startRecord();
+                Log.d("startRecord", "voidStartRecord create startRecord------->");
             } else if (curTestState == TEST_PLAYYING) {
                 curTestState = TEST_IDLE;
                 stopPlay();
+                Log.d("startRecord", "voidStartRecord create stopPlay------->");
             }
         }
     }
 
     private void playRecordFile() {
-        mMediaPlayer = new MediaPlayer();
+        Log.d("startRecord", "create playRecordFile------->");
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+        }
         mMediaPlayer.reset();
         try {
             mMediaPlayer.setDataSource(RECORD_PATH);
@@ -104,6 +107,7 @@ public class HeadSetActivity extends TTSBaseActivity {
     }
 
     private void startRecord() {
+        Log.d("startRecord", "create startRecord------->");
         File mOutRecordFile = new File(RECORD_PATH);
         if (!mOutRecordFile.exists()) {
             try {
@@ -116,25 +120,38 @@ public class HeadSetActivity extends TTSBaseActivity {
         if (mMediaRecorder == null) {
             mMediaRecorder = new MediaRecorder();
         }
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mMediaRecorder.setOutputFile(mOutRecordFile.getAbsolutePath());
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
+            Log.d("startRecord", "create newFile------->" + mMediaRecorder);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void stopRecorder() {
+        Log.d("startRecord", "create stopRecorder------->");
         if (mMediaRecorder != null) {
-            mMediaRecorder.stop();
+            setErrorListener();
+            try {
+                mMediaRecorder.stop();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     private void stopPlay() {
+        Log.d("startRecord", "create stopPlay------->");
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -145,9 +162,10 @@ public class HeadSetActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            if (!headSetConnected) {
+            if (false) {
                 playHeadSetText();
             } else {
+                Log.d("startRecord", "onKeyUp headSetConnected--3---->=" + (curTestState == TEST_RECORDERING));
                 if (curTestState == TEST_RECORDERING) {
                     curTestState = TEST_PLAYYING;
                     stopRecorder();
@@ -160,8 +178,8 @@ public class HeadSetActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         release();
         deleteFile();
         if (mIntentReceiver != null) {
@@ -186,14 +204,15 @@ public class HeadSetActivity extends TTSBaseActivity {
                 stopRecorder();
             }
             if (mMediaRecorder != null) {
+                setErrorListener();
                 mMediaRecorder.stop();
                 mMediaRecorder.release();
                 mMediaRecorder = null;
             }
-            if (mMediaRecorder != null) {
-                mMediaRecorder.stop();
-                mMediaRecorder.release();
-                mMediaRecorder = null;
+            if (mMediaPlayer != null) {
+                mMediaPlayer.stop();
+                mMediaPlayer.release();
+                mMediaPlayer = null;
             }
         } catch (Exception e) {
             Log.d("startRecord", "release Exception------->" + e.getMessage());
@@ -211,11 +230,11 @@ public class HeadSetActivity extends TTSBaseActivity {
     };
 
     private void doCurrentHeadSetAction(String action, Intent intent) {
+        Log.d("currentHeatSet", "currentHeatSet--------------->" + intent.hasExtra("state"));
         if (action.equals(Intent.ACTION_HEADSET_PLUG) && intent.hasExtra("state")) {
             int currentHeatSet = intent.getIntExtra("state", 0);
             Log.d("currentHeatSet", "currentHeatSet--------------->" + currentHeatSet);
-            if (headSetConnected && currentHeatSet == 0) {
-                headSetConnected = false;
+            if (currentHeatSet == 0) {
                 if (curTestState == TEST_RECORDERING) {
                     curTestState = TEST_IDLE;
                     stopRecorder();
@@ -223,9 +242,12 @@ public class HeadSetActivity extends TTSBaseActivity {
                     curTestState = TEST_IDLE;
                     stopPlay();
                 }
-            } else if (!headSetConnected && currentHeatSet == 1) {
-                headSetConnected = true;
             }
         }
+    }
+    public void setErrorListener(){
+        mMediaRecorder.setOnErrorListener(null);
+        mMediaRecorder.setOnInfoListener(null);
+        mMediaRecorder.setPreviewDisplay(null);
     }
 }

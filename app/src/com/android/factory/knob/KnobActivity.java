@@ -89,8 +89,8 @@ public class KnobActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onStopTasks() {
+        super.onStopTasks();
         if (mKnobBroadCastReceiver != null){
             unregisterReceiver(mKnobBroadCastReceiver);
             mKnobBroadCastReceiver = null;
@@ -118,12 +118,11 @@ public class KnobActivity extends TTSBaseActivity {
     };
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         mGlobalHandler.removeCallbacks(startKnobCodeComplete);
         mGlobalHandler.removeCallbacks(mKnobTestResult);
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

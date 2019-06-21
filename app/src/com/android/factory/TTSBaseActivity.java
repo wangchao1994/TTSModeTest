@@ -1,6 +1,5 @@
 package com.android.factory;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,16 +7,18 @@ import android.speech.tts.SystemTTS;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import com.android.factory.handler.GlobalHandler;
+import com.android.factory.permission.PermissionActivity;
 
-public abstract class TTSBaseActivity extends Activity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete{
+public abstract class TTSBaseActivity extends PermissionActivity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete{
     protected GlobalHandler mGlobalHandler;
     protected Context mContext;
     protected SystemTTS mSystemTTS;
     protected boolean isTTSComplete;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreateTasks(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        super.onCreate(savedInstanceState);
+        super.onCreateTasks(savedInstanceState);
         setContentView(getLayoutId());
         mContext = this;
         mSystemTTS = SystemTTS.getInstance(mContext);
@@ -52,7 +53,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1 && isTTSComplete) { //无屏测试 有屏KEYCODE_BACK
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //无屏测试 有屏KEYCODE_BACK
             if (mGlobalHandler != null){
                 mGlobalHandler.postDelayed(startRepeatFactoryMode,3000);
             }
@@ -86,8 +87,8 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
     };
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         removeRepeatFactoryMode();
     }
 

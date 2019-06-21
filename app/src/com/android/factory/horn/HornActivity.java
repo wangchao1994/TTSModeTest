@@ -1,10 +1,9 @@
 package com.android.factory.horn;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Message;
-import android.view.KeyEvent;
-
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.usb.USBActivity;
@@ -23,7 +22,7 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     private void initAudioParams() {
-        audiomanager = (AudioManager) this.getSystemService(AUDIO_SERVICE);
+        audiomanager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         if (audiomanager == null)return;
         audiomanager.setSpeakerphoneOn(true);
         audiomanager.setRouting(AudioManager.MODE_RINGTONE,AudioManager.ROUTE_EARPIECE,AudioManager.ROUTE_ALL);
@@ -51,8 +50,8 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         if(mMediaPlayer != null){
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -64,8 +63,12 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     protected void playAudio(){
+        /*Uri mediaUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        mMediaPlayer = MediaPlayer.create(mContext, mediaUri);
+        mMediaPlayer.setLooping(false);
+        mMediaPlayer.start();*/
         mMediaPlayer = MediaPlayer.create(this,R.raw.tada);
-        //mMediaPlayer.setLooping(true);
+        mMediaPlayer.setLooping(false);
         mMediaPlayer.start();
     }
 

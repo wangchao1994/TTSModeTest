@@ -78,7 +78,16 @@ public class MicPhoneActivity extends TTSBaseActivity {
 
     private void stopRecorder(){
         if (mMediaRecorder != null) {
-            mMediaRecorder.stop();
+            setErrorListener();
+            try {
+                mMediaRecorder.stop();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -98,8 +107,7 @@ public class MicPhoneActivity extends TTSBaseActivity {
         File mOutRecordFile = new File(RECORD_PATH);
         if (!mOutRecordFile.exists()){
             try {
-                boolean newFile = mOutRecordFile.createNewFile();
-                Log.d("startRecord","create newFile------->"+newFile);
+                mOutRecordFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -125,7 +133,9 @@ public class MicPhoneActivity extends TTSBaseActivity {
     }
 
     private void playRecordFile(){
-        mMediaPlayer = new MediaPlayer();
+        if (mMediaPlayer == null){
+            mMediaPlayer = new MediaPlayer();
+        }
         mMediaPlayer.reset();
         try{
             Log.d("startRecord","create prepare--playRecordFile----->");
@@ -145,12 +155,14 @@ public class MicPhoneActivity extends TTSBaseActivity {
             mMediaPlayer = null;
         }
     }
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         release();
         deleteFile();
     }
+
     /**
      * delete Record file
      */
@@ -166,17 +178,23 @@ public class MicPhoneActivity extends TTSBaseActivity {
                 stopRecorder();
             }
             if (mMediaRecorder != null) {
+                setErrorListener();
                 mMediaRecorder.stop();
                 mMediaRecorder.release();
                 mMediaRecorder = null;
             }
-            if (mMediaRecorder != null) {
-                mMediaRecorder.stop();
-                mMediaRecorder.release();
-                mMediaRecorder = null;
+            if (mMediaPlayer != null) {
+                mMediaPlayer.stop();
+                mMediaPlayer.release();
+                mMediaPlayer = null;
             }
         } catch (Exception e) {
             Log.d("startRecord","release Exception------->"+e.getMessage());
         }
+    }
+    public void setErrorListener(){
+        mMediaRecorder.setOnErrorListener(null);
+        mMediaRecorder.setOnInfoListener(null);
+        mMediaRecorder.setPreviewDisplay(null);
     }
 }

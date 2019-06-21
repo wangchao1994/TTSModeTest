@@ -51,8 +51,8 @@ public class KeyCodeActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         mGlobalHandler.removeCallbacks(startKeyCodeComplete);
         mGlobalHandler.removeCallbacks(mKeyTestResult);
     }
@@ -65,26 +65,29 @@ public class KeyCodeActivity extends TTSBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
             case KeyEvent.KEYCODE_BACK://有屏暂时代替测试
-                break;
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_1://无屏测试
                 if (!isTTSComplete){
                     key_external_1_tested = true;
+                    voidStartIntentNextTestItem();
                 }else if(event.getRepeatCount() == 0){
                     startActivityIntent(this, KnobActivity.class);
                 }
-                break;
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_PTT_TX:
                 key_external_ptt_tx_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_2:
                 key_external_2_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
             case KeyEvent.KEYCODE_EXTERNAL_SOS:
                 key_external_sos_tested = true;
-                break;
+                voidStartIntentNextTestItem();
+                return true;
         }
-        voidStartIntentNextTestItem();
-        return true;
+        return super.onKeyDown(keyCode,event);
     }
 
     @Override

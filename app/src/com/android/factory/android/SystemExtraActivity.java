@@ -136,8 +136,8 @@ public class SystemExtraActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onPauseTasks() {
+        super.onPauseTasks();
         if (mWifiStateReceiver != null){
             unregisterReceiver(mWifiStateReceiver);
             mWifiStateReceiver = null;
