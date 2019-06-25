@@ -1,36 +1,39 @@
 package com.android.factory.android;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Message;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import android.os.ServiceManager;
-
-import com.android.factory.factory.ReportResultUtils;
 import com.android.factory.reset.ResetActivity;
 import com.android.internal.telephony.ITelephony;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 import com.android.internal.telephony.PhoneConstants;
+import static android.location.GpsStatus.GPS_EVENT_SATELLITE_STATUS;
 
-import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.LocationManager;
 /**
  * System Test (wifi,blue,sim,gps)
  */
@@ -44,8 +47,6 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private boolean isGpsSuccess;
     private boolean mSim1Exist = false;
     private boolean mSim2Exist = false;
-    private List<GpsSatellite> numSatelliteList = new ArrayList<GpsSatellite>();
-    private LocationManager mLocationManager;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system);
@@ -59,6 +60,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         initWifiParams();
         initBluetoothParams();
         initSimParams();
+        initGPS();
     }
 
     private void initSimParams() {
@@ -115,6 +117,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         super.systemTTSComplete();
         isTTSComplete = true;
         if (mGlobalHandler != null){
+            mGlobalHandler.removeCallbacks(startSystemRunnable);
             mGlobalHandler.postDelayed(startSystemRunnable,5*1000);
         }
     }
@@ -134,17 +137,16 @@ public class SystemExtraActivity extends TTSBaseActivity {
         if (isSystemTestComplete()){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
-            if (true){
-                mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
-            }else if (!isWifiSuccess){
+            //mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
+            if (!isWifiSuccess)
                 mSystemTTS.playText(getResources().getString(R.string.start_system_wifi_fail));
-            }else if(!isBlueSuccess){
+            if(!isBlueSuccess)
                 mSystemTTS.playText(getResources().getString(R.string.start_system_blue_fail));
-            }else if(!isSimSuccess){
+            if(!isSimSuccess)
                 mSystemTTS.playText(getResources().getString(R.string.start_system_sim_fail));
-            }
+            if(!isGpsSuccess)
+                mSystemTTS.playText(getResources().getString(R.string.start_system_gps_fail));
         }
-        ReportResultUtils.writeReportResult(getResources().getString(R.string.start_system_fail));
     }
 
     public boolean isSystemTestComplete(){
@@ -164,6 +166,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         }
         mGlobalHandler.removeCallbacks(startSystemRunnable);
         closeReceiver();
+        mLocationManager.removeUpdates(locationListener);
     }
 
     private void closeReceiver() {
@@ -232,4 +235,78 @@ public class SystemExtraActivity extends TTSBaseActivity {
     protected void startActivityIntentClass() {
         startActivityIntent(this, ResetActivity.class);
     }
+
+
+    private LocationManager mLocationManager;
+
+    private void initGPS(){
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "请开启GPS导航", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 0);
+            return;
+        }
+        String bestProvider = mLocationManager.getBestProvider(getCriteria(), true);
+        Location location = mLocationManager.getLastKnownLocation(bestProvider);
+        mLocationManager.addGpsStatusListener(listener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
+    }
+
+
+    GpsStatus.Listener listener = new GpsStatus.Listener() {
+        @Override
+        public void onGpsStatusChanged(int i) {
+            switch (i) {
+                case GpsStatus.GPS_EVENT_FIRST_FIX:
+                    Toast.makeText(SystemExtraActivity.this, "第一次定位", Toast.LENGTH_SHORT).show();
+                    break;
+                case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+                    GpsStatus gpsStatus = mLocationManager.getGpsStatus(null);
+                    int maxSatellites = gpsStatus.getMaxSatellites();
+                    Iterator<GpsSatellite> iters = gpsStatus.getSatellites().iterator();
+                    int count = 0;
+                    while (iters.hasNext() && count <= maxSatellites) {
+                        GpsSatellite  s = iters.next();
+                        count++;
+                    }
+                    isGpsSuccess = count > 3;
+                    Log.i("lx_log","count " + count);
+                case GpsStatus.GPS_EVENT_STARTED:
+                    Toast.makeText(SystemExtraActivity.this,"定位启动",Toast.LENGTH_SHORT).show();
+                    break;
+                case GpsStatus.GPS_EVENT_STOPPED:
+                    Toast.makeText(SystemExtraActivity.this,"定位结束",Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+
+    private LocationListener locationListener = new LocationListener() {
+        /**
+         * GPS状态变化时触发
+         */
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+        public void onLocationChanged(Location location){
+        }
+    };
+
+    private Criteria getCriteria(){
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setSpeedRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setAltitudeRequired(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        return criteria;
+    }
+
 }

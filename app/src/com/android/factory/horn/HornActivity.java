@@ -1,6 +1,5 @@
 package com.android.factory.horn;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Message;
 import com.android.factory.R;
@@ -8,11 +7,8 @@ import com.android.factory.TTSBaseActivity;
 import com.android.factory.usb.USBActivity;
 
 public class HornActivity extends TTSBaseActivity {
-
-    private AudioManager audiomanager;
     private MediaPlayer mMediaPlayer;
     private boolean isPlaySuccess;
-
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_horn);
@@ -73,9 +69,6 @@ public class HornActivity extends TTSBaseActivity {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
-        }
-        if (audiomanager != null){
-            audiomanager.setMode(AudioManager.MODE_NORMAL);
         }
     }
 }

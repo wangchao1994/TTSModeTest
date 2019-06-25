@@ -54,7 +54,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { //无屏测试 有屏KEYCODE_BACK
+        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1) { //无屏测试 有屏KEYCODE_BACK
             event.startTracking();
             isLongPress = false;
         }
@@ -64,7 +64,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1){
             if (isLongPress){
                 startActivityIntent(mContext,MainActivity.class);
             }else {
@@ -79,7 +79,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1){
             isLongPress = true;
             return true;
         }

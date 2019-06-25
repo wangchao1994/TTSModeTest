@@ -51,6 +51,7 @@ public class KnobActivity extends TTSBaseActivity {
     private int mKnobKeyUpResult;
     private int mPowerOnResult;
     private int mPowerOffResult;
+    private long[] mHits = new long[3];
 
     @Override
     protected void initData() {
@@ -101,6 +102,7 @@ public class KnobActivity extends TTSBaseActivity {
     protected void systemTTSComplete() {
         super.systemTTSComplete();
         if (mGlobalHandler != null && !isAllTestSuccess){
+            mGlobalHandler.removeCallbacks(startKnobCodeComplete);
             mGlobalHandler.postDelayed(startKnobCodeComplete, 10*1000);
         }
         if (isAllTestSuccess){
@@ -113,6 +115,7 @@ public class KnobActivity extends TTSBaseActivity {
         public void run() {
             if (mSystemTTS != null){
                 mSystemTTS.playText(getResources().getString(R.string.start_knob_fail));
+                resetAllKnobTest();
             }
         }
     };
@@ -243,5 +246,16 @@ public class KnobActivity extends TTSBaseActivity {
 
     public boolean isReceiverComplete(){
         return mKnobKeyDownResult == 1 && mKnobKeyUpResult ==1  && mPowerOnResult == 1 && mPowerOffResult == 1;
+    }
+
+    private void resetAllKnobTest() {
+        isKnobKeyDown = false;
+        isKnobKeyUp = false;
+        isPowerKeyDown = false;
+        isPowerKeyUp = false;
+        mKnobKeyDownResult = 0;
+        mKnobKeyUpResult = 0;
+        mPowerOnResult = 0;
+        mPowerOffResult = 0;
     }
 }

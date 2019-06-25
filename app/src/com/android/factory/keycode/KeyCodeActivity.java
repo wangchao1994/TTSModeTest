@@ -5,6 +5,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import com.android.factory.R;
@@ -17,6 +18,8 @@ public class KeyCodeActivity extends TTSBaseActivity {
     private boolean key_external_2_tested = false;
     private boolean key_external_sos_tested = false;
     private boolean isKeyCodeSuccess;
+    private long[] mHits = new long[2];
+
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_keycode);
@@ -30,14 +33,23 @@ public class KeyCodeActivity extends TTSBaseActivity {
         public void run() {
             if (mSystemTTS != null){
                 mSystemTTS.playText(getResources().getString(R.string.start_key_fail));
+                resetAllKeyTestValues();
             }
         }
     };
+
+    private void resetAllKeyTestValues() {
+        key_external_1_tested = false;
+        key_external_ptt_tx_tested = false;
+        key_external_2_tested = false;
+        key_external_sos_tested = false;
+    }
 
     @Override
     public void systemTTSComplete() {
         Log.d("speech_log","KeyCodeActivity speechComplete----------------->");
         if (mGlobalHandler != null && !isKeyCodeSuccess){
+            mGlobalHandler.removeCallbacks(startKeyCodeComplete);
             mGlobalHandler.postDelayed(startKeyCodeComplete, 10*1000);
         }
         if (isKeyCodeSuccess){
@@ -65,14 +77,13 @@ public class KeyCodeActivity extends TTSBaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
             case KeyEvent.KEYCODE_BACK://有屏暂时代替测试
-                if (!isTTSComplete){
-                    key_external_1_tested = true;
-                    voidStartIntentNextTestItem();
-                }else if(event.getRepeatCount() == 0){
-                    startActivityIntent(this, KnobActivity.class);
-                }
                 return true;
             case KeyEvent.KEYCODE_EXTERNAL_1://无屏测试
+                if (!isTTSComplete){//没有测试成功
+                    voidStartNextItem();
+                }else if(event.getRepeatCount() == 0){
+                    startActivityIntentClass();
+                }
                 return true;
             case KeyEvent.KEYCODE_EXTERNAL_PTT_TX:
                 key_external_ptt_tx_tested = true;
@@ -90,8 +101,21 @@ public class KeyCodeActivity extends TTSBaseActivity {
         return super.onKeyDown(keyCode,event);
     }
 
+    private void voidStartNextItem() {
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
+        mHits[mHits.length-1] = SystemClock.uptimeMillis();
+        Log.d("startReset","voidStartReset------------->"+mHits[0]);
+        if ((SystemClock.uptimeMillis()-mHits[0]) <= 1500) {
+            startActivityIntentClass();
+        }else{
+            key_external_1_tested = true;
+            voidStartIntentNextTestItem();
+        }
+    }
+
     @Override
     protected void startActivityIntentClass() {
+        startActivityIntent(this, KnobActivity.class);
     }
 
     private void voidStartIntentNextTestItem() {
@@ -105,7 +129,7 @@ public class KeyCodeActivity extends TTSBaseActivity {
     }
 
     public boolean isKeyCodeComplete(){
-        return key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested /*&&key_external_sos_tested*/;
+        return key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested &&key_external_sos_tested;
     }
     private final Runnable mKeyTestResult = new Runnable() {
         @Override

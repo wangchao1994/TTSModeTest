@@ -22,6 +22,7 @@
     <string name="start_system_blue_fail">测试完成,系统蓝牙测试失败</string>
     <string name="start_system_wifi_fail">测试完成,系统WI-Fi测试失败</string>
     <string name="start_system_sim_fail">测试完成,系统Sim卡测试失败</string>
+    <string name="start_system_gps_fail">测试完成,系统GPS测试失败</string>
     <string name="start_system_reset">恢复出厂设置测试,语音结束后按自定义按键开始测试</string>
 </resources>
 

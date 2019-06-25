@@ -41,6 +41,7 @@ public class USBActivity extends TTSBaseActivity {
     protected void systemTTSComplete() {
         super.systemTTSComplete();
         if (mGlobalHandler != null && !isUSBTestSuccess){
+            mGlobalHandler.removeCallbacks(startUSBFailRunnable);
             mGlobalHandler.postDelayed(startUSBFailRunnable,20*1000);
         }
         isTTSComplete = true;
