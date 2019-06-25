@@ -39,8 +39,8 @@ public class LEDActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
         if (mTimer != null){
             mTimer.cancel();
         }

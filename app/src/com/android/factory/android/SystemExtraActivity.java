@@ -6,18 +6,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Message;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import android.os.ServiceManager;
+
+import com.android.factory.factory.ReportResultUtils;
 import com.android.factory.reset.ResetActivity;
 import com.android.internal.telephony.ITelephony;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.util.Log;
 import com.android.internal.telephony.PhoneConstants;
+
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
+import android.location.LocationManager;
 /**
  * System Test (wifi,blue,sim,gps)
  */
@@ -31,6 +44,8 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private boolean isGpsSuccess;
     private boolean mSim1Exist = false;
     private boolean mSim2Exist = false;
+    private List<GpsSatellite> numSatelliteList = new ArrayList<GpsSatellite>();
+    private LocationManager mLocationManager;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system);
@@ -129,6 +144,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
                 mSystemTTS.playText(getResources().getString(R.string.start_system_sim_fail));
             }
         }
+        ReportResultUtils.writeReportResult(getResources().getString(R.string.start_system_fail));
     }
 
     public boolean isSystemTestComplete(){
@@ -136,8 +152,8 @@ public class SystemExtraActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
         if (mWifiStateReceiver != null){
             unregisterReceiver(mWifiStateReceiver);
             mWifiStateReceiver = null;

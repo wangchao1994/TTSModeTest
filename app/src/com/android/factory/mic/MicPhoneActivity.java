@@ -52,12 +52,19 @@ public class MicPhoneActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            voidStartRecord();
+            if (mGlobalHandler != null){
+                mGlobalHandler.postDelayed(startRecordRunnable,200);//避免短按录音初始化参数异常
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-
+    private final Runnable startRecordRunnable = new Runnable() {
+        @Override
+        public void run() {
+            voidStartRecord();
+        }
+    };
     @Override
     protected void startActivityIntentClass() {
         startActivityIntent(this, HornActivity.class);
@@ -66,6 +73,9 @@ public class MicPhoneActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX){
+            if (mGlobalHandler != null){
+                mGlobalHandler.removeCallbacks(startRecordRunnable);
+            }
             if(curTestState == TEST_RECORDERING && isRecordInit){
                 curTestState = TEST_PLAYYING;
                 stopRecorder();
@@ -155,14 +165,12 @@ public class MicPhoneActivity extends TTSBaseActivity {
             mMediaPlayer = null;
         }
     }
-
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
         release();
         deleteFile();
     }
-
     /**
      * delete Record file
      */

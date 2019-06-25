@@ -25,6 +25,7 @@ public class HeadSetActivity extends TTSBaseActivity {
     private int curTestState = TEST_IDLE;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
+    private boolean isPlaySuccess = false;
 
     @Override
     protected void initData() {
@@ -64,7 +65,9 @@ public class HeadSetActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            voidStartRecord();
+            if (mGlobalHandler != null){
+                mGlobalHandler.postDelayed(startRecordRunnable,200);//避免短按录音初始化参数异常
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -72,8 +75,19 @@ public class HeadSetActivity extends TTSBaseActivity {
 
     @Override
     protected void startActivityIntentClass() {
-        startActivityIntent(this, MicPhoneActivity.class);
+        Log.i("lx_log"," isPlaySuccess == " + isPlaySuccess);
+        if (isPlaySuccess){
+            startActivityIntent(this, MicPhoneActivity.class);
+        }
     }
+
+
+    private final Runnable startRecordRunnable = new Runnable() {
+        @Override
+        public void run() {
+            voidStartRecord();
+        }
+    };
 
     private void voidStartRecord() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -99,6 +113,12 @@ public class HeadSetActivity extends TTSBaseActivity {
             mMediaPlayer.setDataSource(RECORD_PATH);
             mMediaPlayer.prepare();
             mMediaPlayer.start();
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    isPlaySuccess = true;
+                }
+            });
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -120,7 +140,7 @@ public class HeadSetActivity extends TTSBaseActivity {
         if (mMediaRecorder == null) {
             mMediaRecorder = new MediaRecorder();
         }
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mMediaRecorder.setOutputFile(mOutRecordFile.getAbsolutePath());
@@ -162,15 +182,14 @@ public class HeadSetActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            if (false) {
-                playHeadSetText();
-            } else {
-                Log.d("startRecord", "onKeyUp headSetConnected--3---->=" + (curTestState == TEST_RECORDERING));
-                if (curTestState == TEST_RECORDERING) {
-                    curTestState = TEST_PLAYYING;
-                    stopRecorder();
-                    playRecordFile();
-                }
+            if (mGlobalHandler != null){
+                mGlobalHandler.removeCallbacks(startRecordRunnable);
+            }
+            Log.d("startRecord", "onKeyUp headSetConnected--3---->=" + (curTestState == TEST_RECORDERING));
+            if (curTestState == TEST_RECORDERING) {
+                curTestState = TEST_PLAYYING;
+                stopRecorder();
+                playRecordFile();
             }
             return true;
         }
@@ -178,8 +197,8 @@ public class HeadSetActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
         release();
         deleteFile();
         if (mIntentReceiver != null) {

@@ -1,5 +1,6 @@
 package com.android.factory;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,18 +8,17 @@ import android.speech.tts.SystemTTS;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import com.android.factory.handler.GlobalHandler;
-import com.android.factory.permission.PermissionActivity;
 
-public abstract class TTSBaseActivity extends PermissionActivity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete{
+public abstract class TTSBaseActivity extends Activity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete{
     protected GlobalHandler mGlobalHandler;
     protected Context mContext;
     protected SystemTTS mSystemTTS;
     protected boolean isTTSComplete;
-
+    private boolean isLongPress;
     @Override
-    protected void onCreateTasks(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        super.onCreateTasks(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         mContext = this;
         mSystemTTS = SystemTTS.getInstance(mContext);
@@ -51,15 +51,12 @@ public abstract class TTSBaseActivity extends PermissionActivity implements Glob
     private void systemTTSError() {
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && isTTSComplete) { //无屏测试 有屏KEYCODE_BACK
-            if (mGlobalHandler != null){
-                mGlobalHandler.postDelayed(startRepeatFactoryMode,3000);
-            }
-            if (event.getRepeatCount() == 0){
-                startActivityIntentClass();
-            }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { //无屏测试 有屏KEYCODE_BACK
+            event.startTracking();
+            isLongPress = false;
         }
         return true;
     }
@@ -68,29 +65,24 @@ public abstract class TTSBaseActivity extends PermissionActivity implements Glob
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
-            removeRepeatFactoryMode();
+            if (isLongPress){
+                startActivityIntent(mContext,MainActivity.class);
+            }else {
+                if (isTTSComplete && event.getRepeatCount() == 0){
+                    startActivityIntentClass();
+                }
+            }
+            isLongPress = false;
         }
-        return super.onKeyUp(keyCode, event);
+        return true;
     }
-
-    public void removeRepeatFactoryMode(){
-        if (mGlobalHandler != null){
-            mGlobalHandler.removeCallbacks(startRepeatFactoryMode);
-        }
-    }
-
-    private final Runnable startRepeatFactoryMode = new Runnable() {
-        @Override
-        public void run() {
-            startActivityIntent(mContext,MainActivity.class);
-        }
-    };
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
-        removeRepeatFactoryMode();
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+            isLongPress = true;
+            return true;
+        }
+        return true;
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.android.factory.horn;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Message;
@@ -9,8 +8,10 @@ import com.android.factory.TTSBaseActivity;
 import com.android.factory.usb.USBActivity;
 
 public class HornActivity extends TTSBaseActivity {
+
     private AudioManager audiomanager;
     private MediaPlayer mMediaPlayer;
+    private boolean isPlaySuccess;
 
     @Override
     protected void initData() {
@@ -18,18 +19,6 @@ public class HornActivity extends TTSBaseActivity {
         if (mSystemTTS != null){
             mSystemTTS.playText(mPlayText);
         }
-        //initAudioParams();//初始化参数
-    }
-
-    private void initAudioParams() {
-        audiomanager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        if (audiomanager == null)return;
-        audiomanager.setSpeakerphoneOn(true);
-        audiomanager.setRouting(AudioManager.MODE_RINGTONE,AudioManager.ROUTE_EARPIECE,AudioManager.ROUTE_ALL);
-        setVolumeControlStream(AudioManager.STREAM_RING);
-        audiomanager.adjustVolume(AudioManager.ADJUST_RAISE,0);
-        audiomanager.setStreamVolume(AudioManager.STREAM_MUSIC,audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
-        audiomanager.setMode(AudioManager.MODE_IN_CALL);
     }
 
     @Override
@@ -50,8 +39,36 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
+        releaseMediaPlayer();
+    }
+
+    protected void playAudio(){
+        mMediaPlayer = MediaPlayer.create(this,R.raw.tada);
+        mMediaPlayer.setLooping(false);
+        mMediaPlayer.start();
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                isPlaySuccess = true;
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseMediaPlayer();
+    }
+
+    @Override
+    protected void startActivityIntentClass() {
+        startActivityIntent(this, USBActivity.class);
+    }
+
+
+    private void releaseMediaPlayer(){
         if(mMediaPlayer != null){
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -60,20 +77,5 @@ public class HornActivity extends TTSBaseActivity {
         if (audiomanager != null){
             audiomanager.setMode(AudioManager.MODE_NORMAL);
         }
-    }
-
-    protected void playAudio(){
-        /*Uri mediaUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        mMediaPlayer = MediaPlayer.create(mContext, mediaUri);
-        mMediaPlayer.setLooping(false);
-        mMediaPlayer.start();*/
-        mMediaPlayer = MediaPlayer.create(this,R.raw.tada);
-        mMediaPlayer.setLooping(false);
-        mMediaPlayer.start();
-    }
-
-    @Override
-    protected void startActivityIntentClass() {
-        startActivityIntent(this, USBActivity.class);
     }
 }

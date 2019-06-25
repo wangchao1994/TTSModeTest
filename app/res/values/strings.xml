@@ -8,9 +8,9 @@
     <string name="start_headset">耳机测试，请插入耳机</string>
     <string name="start_key_fail">按键测试失败,可重新按键测试</string>
     <string name="start_key_success">按键测试成功,按自定义键进入下一测试项</string>
-    <string name="start_knob">旋钮测试,按自定义键进入下一测试项</string>
+    <string name="start_knob">旋钮测试,测试完成后按自定义键进入下一测试项</string>
     <string name="start_knob_fail">旋钮测试失败,可重新测试</string>
-    <string name="start_knob_success">旋钮测试成功</string>
+    <string name="start_knob_success">旋钮测试成功,按自定义键进入下一测试项</string>
     <string name="start_mic">MIC测试,测试完成后按自定义键进入下一测试项</string>
     <string name="start_horn">喇叭测试,测试完成后按自定义键进入下一测试项</string>
     <string name="start_usb">USB测试,请插入USB</string>
@@ -23,7 +23,6 @@
     <string name="start_system_wifi_fail">测试完成,系统WI-Fi测试失败</string>
     <string name="start_system_sim_fail">测试完成,系统Sim卡测试失败</string>
     <string name="start_system_reset">恢复出厂设置测试,语音结束后按自定义按键开始测试</string>
-
 </resources>
 
 

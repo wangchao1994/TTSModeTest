@@ -61,8 +61,8 @@ public class USBActivity extends TTSBaseActivity {
     }
 
     @Override
-    protected void onPauseTasks() {
-        super.onPauseTasks();
+    protected void onPause() {
+        super.onPause();
         unRegisterUsbActionReceiver();
         mGlobalHandler.removeCallbacks(startUSBFailRunnable);
         mGlobalHandler.removeCallbacks(startUSBSuccessRunnable);
