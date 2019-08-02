@@ -31,11 +31,15 @@ import android.os.RemoteException;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-import com.android.internal.telephony.PhoneConstants;
-import static android.location.GpsStatus.GPS_EVENT_SATELLITE_STATUS;
 
+import com.android.internal.telephony.PhoneConstants;
+
+import static android.location.GpsStatus.GPS_EVENT_SATELLITE_STATUS;
+import android.os.StatFs;
+import java.lang.reflect.Method;
+import android.os.storage.StorageManager;
 /**
- * System Test (wifi,blue,sim,gps)
+ * System Test (wifi,blue,sim,gps,sd)
  */
 public class SystemExtraActivity extends TTSBaseActivity {
 
@@ -43,10 +47,14 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private boolean isWifiSuccess;
     private boolean isBlueSuccess;
+    private boolean isSim1Success;
+    private boolean isSim2Success;
     private boolean isSimSuccess;
     private boolean isGpsSuccess;
     private boolean mSim1Exist = false;
     private boolean mSim2Exist = false;
+    private boolean isStorageSuccess;
+	private boolean isCompleteTest;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system);
@@ -61,6 +69,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
         initBluetoothParams();
         initSimParams();
         initGPS();
+		initStorage();
     }
 
     private void initSimParams() {
@@ -70,9 +79,11 @@ public class SystemExtraActivity extends TTSBaseActivity {
             mSim2Exist = iTelephony.hasIccCardUsingSlotIndex(PhoneConstants.SIM_ID_2);
             Log.d("system_log","mSim1Exist------------>"+mSim1Exist);
             Log.d("system_log","mSim2Exist------------>"+mSim2Exist);
-            if (mSim1Exist || mSim2Exist){
-                isSimSuccess = true;
-            }
+            if (mSim1Exist)isSim1Success = true;
+            if (mSim2Exist)isSim2Success = true;
+			if(mSim1Exist && mSim2Exist){
+				isSimSuccess = true;
+			}
         }catch (RemoteException e){
             Log.d("system_log","RemoteException-RemoteException----------->"+e.getMessage());
         }
@@ -115,10 +126,12 @@ public class SystemExtraActivity extends TTSBaseActivity {
     @Override
     protected void systemTTSComplete() {
         super.systemTTSComplete();
-        isTTSComplete = true;
-        if (mGlobalHandler != null){
+		if(isCompleteTest){
+			isTTSComplete = true;
+		}
+        if (mGlobalHandler != null && !isCompleteTest){
             mGlobalHandler.removeCallbacks(startSystemRunnable);
-            mGlobalHandler.postDelayed(startSystemRunnable,5*1000);
+            mGlobalHandler.postDelayed(startSystemRunnable,8*1000);
         }
     }
 
@@ -134,23 +147,31 @@ public class SystemExtraActivity extends TTSBaseActivity {
         Log.d("system_log","isBlueSuccess------------>"+isBlueSuccess);
         Log.d("system_log","isSimSuccess------------>"+isSimSuccess);
         Log.d("system_log","isGpsSuccess------------>"+isGpsSuccess);
+        Log.d("system_log","isStroageSuccess------------>"+isStorageSuccess);
         if (isSystemTestComplete()){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
             //mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
-            if (!isWifiSuccess)
-                mSystemTTS.playText(getResources().getString(R.string.start_system_wifi_fail));
-            if(!isBlueSuccess)
-                mSystemTTS.playText(getResources().getString(R.string.start_system_blue_fail));
-            if(!isSimSuccess)
-                mSystemTTS.playText(getResources().getString(R.string.start_system_sim_fail));
-            if(!isGpsSuccess)
-                mSystemTTS.playText(getResources().getString(R.string.start_system_gps_fail));
+            mSystemTTS.playText(getResources().getString(R.string.start_system_complete));
+            mSystemTTS.playText(isWifiSuccess ? getResources().getString(R.string.start_system_wifi_success) 
+							: getResources().getString(R.string.start_system_wifi_fail));
+            mSystemTTS.playText(isBlueSuccess ? getResources().getString(R.string.start_system_blue_success) 
+							: getResources().getString(R.string.start_system_blue_fail));
+            mSystemTTS.playText(isSim1Success ? getResources().getString(R.string.start_system_sim1_success) 
+							: getResources().getString(R.string.start_system_sim1_fail));
+            mSystemTTS.playText(isSim2Success ? getResources().getString(R.string.start_system_sim2_success) 
+							: getResources().getString(R.string.start_system_sim2_fail));
+            mSystemTTS.playText(isStorageSuccess ? getResources().getString(R.string.start_system_sd_success) 
+							: getResources().getString(R.string.start_system_sd_fail));
+            mSystemTTS.playText(isGpsSuccess ? getResources().getString(R.string.start_system_gps_success) 
+							: getResources().getString(R.string.start_system_gps_fail));
+            mSystemTTS.playText(getResources().getString(R.string.start_system_next_test));
         }
+		isCompleteTest = true;
     }
 
     public boolean isSystemTestComplete(){
-        return isWifiSuccess && isBlueSuccess && isSimSuccess;
+        return isWifiSuccess && isBlueSuccess && isSimSuccess && isGpsSuccess && isStorageSuccess;
     }
 
     @Override
@@ -242,9 +263,9 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private void initGPS(){
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "请开启GPS导航", Toast.LENGTH_SHORT).show();
+            /*Toast.makeText(this, "请开启GPS导航", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, 0);*/
             return;
         }
         String bestProvider = mLocationManager.getBestProvider(getCriteria(), true);
@@ -307,6 +328,47 @@ public class SystemExtraActivity extends TTSBaseActivity {
         criteria.setAltitudeRequired(true);
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         return criteria;
+    }
+
+
+	//T卡检测-------------------------------------------------------------
+	public void initStorage(){
+		isStorageSuccess = getTStorageAvailable(this);
+	}
+	/**
+     * (内部存储+外部存储）
+     * @param context
+     * @return
+     */
+    public String[] getStoragePaths(Context context) {
+        Method mMethodGetPaths = null;
+        String[] paths = null;
+        StorageManager mStorageManager = (StorageManager)context
+                .getSystemService(Context.STORAGE_SERVICE);
+        try {
+            if (mStorageManager == null)return null;
+            mMethodGetPaths = mStorageManager.getClass().getMethod("getVolumePaths");
+            paths = (String[]) mMethodGetPaths.invoke(mStorageManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return paths;
+    }
+
+	/**
+     * 获取外部T卡
+     * @param context
+     * @return 
+     */
+    public boolean getTStorageAvailable(Context context) {
+        String[] mStoragePath = getStoragePaths(context);
+        if (mStoragePath != null && mStoragePath.length > 1){
+           	String outTStoragePath  = mStoragePath[1];
+			if(outTStoragePath != null && !"".equals(outTStoragePath)){
+				return true;
+			}
+        }
+        return false;
     }
 
 }

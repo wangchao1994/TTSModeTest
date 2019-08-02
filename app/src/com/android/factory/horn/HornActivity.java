@@ -41,7 +41,7 @@ public class HornActivity extends TTSBaseActivity {
     }
 
     protected void playAudio(){
-        mMediaPlayer = MediaPlayer.create(this,R.raw.tada);
+        mMediaPlayer = MediaPlayer.create(this,R.raw.speaker_ring_custom);
         mMediaPlayer.setLooping(false);
         mMediaPlayer.start();
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

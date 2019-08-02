@@ -17,13 +17,27 @@
     <string name="start_usb_fail">USB测试失败</string>
     <string name="start_usb_success">USB测试成功</string>
     <string name="start_system">安卓系统测试</string>
-    <string name="start_system_fail">测试完成,系统测试失败</string>
+    <string name="start_system_waiting">正在测试,请稍候</string>
     <string name="start_system_success">测试完成,系统测试成功</string>
-    <string name="start_system_blue_fail">测试完成,系统蓝牙测试失败</string>
-    <string name="start_system_wifi_fail">测试完成,系统WI-Fi测试失败</string>
-    <string name="start_system_sim_fail">测试完成,系统Sim卡测试失败</string>
-    <string name="start_system_gps_fail">测试完成,系统GPS测试失败</string>
-    <string name="start_system_reset">恢复出厂设置测试,语音结束后按自定义按键开始测试</string>
+    <string name="start_system_complete">测试完成</string>
+    <string name="start_system_blue_fail">系统蓝牙测试失败</string>
+    <string name="start_system_blue_success">系统蓝牙测试成功</string>
+    <string name="start_system_wifi_fail">系统Wi-Fi测试失败</string>
+    <string name="start_system_wifi_success">系统Wi-Fi测试成功</string>
+   <string name="start_system_sd_fail">系统SD卡测试失败</string>
+    <string name="start_system_sd_success">系统SD卡测试成功</string>
+    <string name="start_system_sim_fail">系统Sim卡测试失败</string>
+    <string name="start_system_sim_success">系统Sim卡测试成功</string>
+
+	<string name="start_system_sim1_fail">系统Sim卡1测试失败</string>
+    <string name="start_system_sim1_success">系统Sim卡1测试成功</string>
+	<string name="start_system_sim2_fail">系统Sim卡2测试失败</string>
+    <string name="start_system_sim2_success">系统Sim卡2测试成功</string>
+	
+    <string name="start_system_gps_fail">系统GPS测试失败</string>
+    <string name="start_system_gps_success">系统GPS测试成功</string>
+    <string name="start_system_next_test">按自定义键进入下一测试项</string>
+    <string name="start_system_reset">恢复出厂设置测试,语音结束后按连续点击2次自定义按键开始测试</string>
 </resources>
 
 

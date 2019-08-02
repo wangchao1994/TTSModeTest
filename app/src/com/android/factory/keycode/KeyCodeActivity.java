@@ -129,7 +129,7 @@ public class KeyCodeActivity extends TTSBaseActivity {
     }
 
     public boolean isKeyCodeComplete(){
-        return key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested &&key_external_sos_tested;
+        return key_external_1_tested && key_external_ptt_tx_tested && key_external_2_tested;
     }
     private final Runnable mKeyTestResult = new Runnable() {
         @Override
@@ -141,8 +141,9 @@ public class KeyCodeActivity extends TTSBaseActivity {
     };
 
     private void startPlaySystemRing(Context context){
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        /*Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone mRingtone = RingtoneManager.getRingtone(context.getApplicationContext(), uri);
-        mRingtone.play();
+        mRingtone.play();*/
+		playAudio(this);
     }
 }

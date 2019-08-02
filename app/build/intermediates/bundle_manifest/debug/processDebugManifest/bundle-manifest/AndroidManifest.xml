@@ -9,6 +9,8 @@
         android:minSdkVersion="25"
         android:targetSdkVersion="29" />
 
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -60,11 +62,12 @@
         <activity android:name="com.android.factory.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name="com.android.factory.usb.USBActivity" />
+        <activity android:name="com.android.factory.android.SystemExtraActivity" />
+        <activity android:name="com.android.factory.reset.ResetActivity" />
     </application>
 
 </manifest>

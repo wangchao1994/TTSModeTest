@@ -11,14 +11,13 @@ import android.widget.Toast;
 import com.android.factory.R;
 import com.android.factory.TTSBaseActivity;
 import com.android.factory.android.SystemExtraActivity;
-
+import android.util.Log;
 /**
  * USB测试
  */
 public class USBActivity extends TTSBaseActivity {
     public static final String ACTION_USB_STATE = "android.hardware.usb.action.USB_STATE";
     private boolean isUSBTestSuccess;
-    private static boolean isUSBChanged = false;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_usb);
@@ -72,6 +71,7 @@ public class USBActivity extends TTSBaseActivity {
     public void usbRegisterReceiver(){
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_STATE);
+		filter.setPriority(1000);
         filter.addAction(UsbManager.ACTION_USB_ACCESSORY_ATTACHED);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
@@ -86,34 +86,26 @@ public class USBActivity extends TTSBaseActivity {
     }
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        public static final String ACTION_USB_STATE = "android.hardware.usb.action.USB_STATE";
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+        	Log.d("speech_log","USBActivity mBroadcastReceiver----------------action->"+action);
             if (action != null && !"".equals(action)) {
                 if (action.equals(ACTION_USB_STATE) && intent.getExtras() != null){
                     boolean connected = intent.getExtras().getBoolean("connected");
                     if (connected){
-                        if (!isUSBChanged){
-                            isUSBChanged = true;
-                            systemUSBSpeech(true);
-                        }
-                    }else {
-                        if (isUSBChanged){
-                            isUSBChanged = false;
-                            systemUSBSpeech(false);
-                        }
+                        systemUSBSpeech();
                     }
-                    Toast.makeText(mContext,connected+"",Toast.LENGTH_SHORT).show();
                 }
             }
         }
     };
 
-    private void systemUSBSpeech(boolean connected) {
-        if (connected && mSystemTTS != null){
+    private void systemUSBSpeech() {
+        if (mSystemTTS != null){
             isUSBTestSuccess = true;
             mGlobalHandler.removeCallbacks(startUSBFailRunnable);
+			mGlobalHandler.removeCallbacks(startUSBSuccessRunnable);
             mGlobalHandler.postDelayed(startUSBSuccessRunnable,2000);
 
         }

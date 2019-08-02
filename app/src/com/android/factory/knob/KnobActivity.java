@@ -221,24 +221,28 @@ public class KnobActivity extends TTSBaseActivity {
             mBroadCastIntent.setAction(s);
             mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
         }
+		playAudio(this);
     }
     public void sendBroadCastKnobUp(){
         for (String s : STEPLESS_KNOB_UP) {
             mBroadCastIntent.setAction(s);
             mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
         }
+		playAudio(this);
     }
     public void sendBroadCastPowerOn(){
         for (String s : POWERKEY_ON) {
             mBroadCastIntent.setAction(s);
             mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
         }
+		playAudio(this);
     }
     public void sendBroadCastPowerOff(){
         for (String s : POWERKEY_OFF) {
             mBroadCastIntent.setAction(s);
             mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
         }
+		playAudio(this);
     }
     public boolean isKeyDownComplete(){
         return isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp;

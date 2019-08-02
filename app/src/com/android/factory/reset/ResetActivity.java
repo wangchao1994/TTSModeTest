@@ -55,7 +55,7 @@ public class ResetActivity extends TTSBaseActivity {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
         mHits[mHits.length-1] = SystemClock.uptimeMillis();
         Log.d("startReset","voidStartReset------------->"+mHits[0]);
-        if ((SystemClock.uptimeMillis()-mHits[0]) <= 3000) {
+        if ((SystemClock.uptimeMillis()-mHits[0]) <= 2000) {
             startResetFactory();
         }
     }
