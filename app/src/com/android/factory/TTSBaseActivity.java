@@ -12,13 +12,6 @@ import com.android.factory.handler.GlobalHandler;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.media.IAudioService;
-import android.os.ServiceManager;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import android.util.Log;
 
 public abstract class TTSBaseActivity extends Activity implements GlobalHandler.HandleMsgListener ,SystemTTS.ISpeechComplete,SoundPool.OnLoadCompleteListener{
     protected GlobalHandler mGlobalHandler;
@@ -73,7 +66,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1) { //无屏测试 有屏KEYCODE_BACK
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) { //无屏测试 有屏KEYCODE_BACK
             event.startTracking();
 			if(event.getRepeatCount() == 0){
 		        isLongPress = false;
@@ -85,7 +78,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1){
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
             if (isLongPress){
                 startActivityIntent(mContext,MainActivity.class);
             }else {
@@ -100,7 +93,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_EXTERNAL_1){
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
             isLongPress = true;
 			return true;
         }
@@ -133,7 +126,7 @@ public abstract class TTSBaseActivity extends Activity implements GlobalHandler.
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         if (mSoundPool != null){
-			mSoundPool.stop(mStreamId);
+            mSoundPool.stop(mStreamId);
             mStreamId = mSoundPool.play(mSoundId, 1.0f, 1.0f, 16, 0, 1.0f);
         }
     }

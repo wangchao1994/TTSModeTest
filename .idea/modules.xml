@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TTSFactoryMode.iml" filepath="$PROJECT_DIR$/TTSFactoryMode.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///mnt/sdc/AndroidStudio3.4/AndroidProject/TTSModeTest/TTSModeTest.iml" filepath="/mnt/sdc/AndroidStudio3.4/AndroidProject/TTSModeTest/TTSModeTest.iml" />
+      <module fileurl="file:///mnt/sdc/AndroidStudio3.4/AndroidProject/TTSModeTest/app/app.iml" filepath="/mnt/sdc/AndroidStudio3.4/AndroidProject/TTSModeTest/app/app.iml" />
     </modules>
   </component>
 </project>

@@ -27,6 +27,7 @@ public class MicPhoneActivity extends TTSBaseActivity {
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
     private boolean isRecordInit;
+    private boolean isStartRecord;
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_mic);
         if (mSystemTTS != null){
@@ -52,8 +53,10 @@ public class MicPhoneActivity extends TTSBaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            if (mGlobalHandler != null){
+            if (mGlobalHandler != null && !isStartRecord){
+                mGlobalHandler.removeCallbacks(startRecordRunnable);
                 mGlobalHandler.postDelayed(startRecordRunnable,200);//避免短按录音初始化参数异常
+                isStartRecord = true;
             }
             return true;
         }
@@ -122,7 +125,7 @@ public class MicPhoneActivity extends TTSBaseActivity {
                 e.printStackTrace();
             }
         }
-        if (mMediaRecorder == null){
+        if(mMediaRecorder == null){
             mMediaRecorder = new MediaRecorder();
         }
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -132,7 +135,6 @@ public class MicPhoneActivity extends TTSBaseActivity {
         AudioSystem.setParameters("SET_MIC_CHOOSE=1");
         mMediaRecorder.setOutputFile(mOutRecordFile.getAbsolutePath());
         try {
-            Log.d("startRecord","create prepare------->");
             mMediaRecorder.prepare();
             mMediaRecorder.start();
         } catch (IOException e) {
@@ -143,15 +145,21 @@ public class MicPhoneActivity extends TTSBaseActivity {
     }
 
     private void playRecordFile(){
-        if (mMediaPlayer == null){
+        if(mMediaPlayer == null){
             mMediaPlayer = new MediaPlayer();
         }
         mMediaPlayer.reset();
         try{
-            Log.d("startRecord","create prepare--playRecordFile----->");
             mMediaPlayer.setDataSource(RECORD_PATH);
             mMediaPlayer.prepare();
             mMediaPlayer.start();
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    isStartRecord = false;
+                    curTestState = TEST_IDLE;
+                }
+            });
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {

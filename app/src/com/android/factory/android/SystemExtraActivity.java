@@ -55,6 +55,8 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private boolean mSim2Exist = false;
     private boolean isStorageSuccess;
 	private boolean isCompleteTest;
+	private int wifiState;
+	private int bluetoothState;
     @Override
     protected void initData() {
         String mPlayText = getResources().getString(R.string.start_system);
@@ -81,7 +83,7 @@ public class SystemExtraActivity extends TTSBaseActivity {
             Log.d("system_log","mSim2Exist------------>"+mSim2Exist);
             if (mSim1Exist)isSim1Success = true;
             if (mSim2Exist)isSim2Success = true;
-			if(mSim1Exist && mSim2Exist){
+			if(mSim1Exist || mSim2Exist){
 				isSimSuccess = true;
 			}
         }catch (RemoteException e){
@@ -92,7 +94,6 @@ public class SystemExtraActivity extends TTSBaseActivity {
     private void initBluetoothParams() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) return;
-        mBluetoothAdapter.enable();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -100,19 +101,49 @@ public class SystemExtraActivity extends TTSBaseActivity {
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(mBluetoothStateReceiver, intentFilter);
+        if(mBluetoothAdapter.isEnabled()){
+            bluetoothState = 1;
+        }
+        Log.d("system_log","initBluetoothParams mBluetoothAdapter.isEnabled----------->"+mBluetoothAdapter.isEnabled());
+        Log.d("system_log","initBluetoothParams bluetoothState----------->"+bluetoothState);
+        if(bluetoothState == 1){//蓝牙默认打开状态，进入下一项测试后不关闭蓝牙
+            mBluetoothAdapter.startDiscovery();
+            return;
+        }
+        mBluetoothAdapter.enable();
         mBluetoothAdapter.startDiscovery();
     }
 
     private void initWifiParams() {
         mWifiManager= (WifiManager)this.getSystemService(WIFI_SERVICE);
         if (mWifiManager == null)return;
-        mWifiManager.setWifiEnabled(true);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         registerReceiver(mWifiStateReceiver, intentFilter);
+        final int state = mWifiManager.getWifiState();
+        wifiState = handleWifiStateChanged(state);
+        Log.d("system_log","initWifiParams wifiState----------->"+wifiState);
+        if(wifiState == 1){//wifi默认打开的状态，进入下一项测试后不关闭wifi
+           mWifiManager.startScan();
+           return;
+        }
+        mWifiManager.setWifiEnabled(true);
         mWifiManager.startScan();
     }
+    
+    private int handleWifiStateChanged(int state) {
+        switch (state) {
+            case WifiManager.WIFI_STATE_ENABLING:
+            case WifiManager.WIFI_STATE_ENABLED:
+                return 1;
+            case WifiManager.WIFI_STATE_DISABLING:
+            case WifiManager.WIFI_STATE_DISABLED:
+                return 0;
+        }
+        return 0;
+    }
+    
 
     @Override
     protected int getLayoutId() {
@@ -127,14 +158,14 @@ public class SystemExtraActivity extends TTSBaseActivity {
     protected void systemTTSComplete() {
         super.systemTTSComplete();
 		if(isCompleteTest){
-			isTTSComplete = true;
+			//isTTSComplete = true;
 		}
         if (mGlobalHandler != null && !isCompleteTest){
             mGlobalHandler.removeCallbacks(startSystemRunnable);
-            mGlobalHandler.postDelayed(startSystemRunnable,8*1000);
+            mGlobalHandler.postDelayed(startSystemRunnable,10*1000);
         }
     }
-
+    
     private final Runnable startSystemRunnable = new Runnable() {
         @Override
         public void run() {
@@ -148,24 +179,24 @@ public class SystemExtraActivity extends TTSBaseActivity {
         Log.d("system_log","isSimSuccess------------>"+isSimSuccess);
         Log.d("system_log","isGpsSuccess------------>"+isGpsSuccess);
         Log.d("system_log","isStroageSuccess------------>"+isStorageSuccess);
-        if (isSystemTestComplete()){
+        if (isSystemTestComplete() && false){
             mSystemTTS.playText(getResources().getString(R.string.start_system_success));
         }else{
             //mSystemTTS.playText(getResources().getString(R.string.start_system_fail));
-            mSystemTTS.playText(getResources().getString(R.string.start_system_complete));
-            mSystemTTS.playText(isWifiSuccess ? getResources().getString(R.string.start_system_wifi_success) 
-							: getResources().getString(R.string.start_system_wifi_fail));
-            mSystemTTS.playText(isBlueSuccess ? getResources().getString(R.string.start_system_blue_success) 
-							: getResources().getString(R.string.start_system_blue_fail));
-            mSystemTTS.playText(isSim1Success ? getResources().getString(R.string.start_system_sim1_success) 
-							: getResources().getString(R.string.start_system_sim1_fail));
-            mSystemTTS.playText(isSim2Success ? getResources().getString(R.string.start_system_sim2_success) 
-							: getResources().getString(R.string.start_system_sim2_fail));
-            mSystemTTS.playText(isStorageSuccess ? getResources().getString(R.string.start_system_sd_success) 
-							: getResources().getString(R.string.start_system_sd_fail));
-            mSystemTTS.playText(isGpsSuccess ? getResources().getString(R.string.start_system_gps_success) 
-							: getResources().getString(R.string.start_system_gps_fail));
-            mSystemTTS.playText(getResources().getString(R.string.start_system_next_test));
+            mSystemTTS.playText(getResources().getString(R.string.start_system_complete)
+                                + (isWifiSuccess ? getResources().getString(R.string.start_system_wifi_success) 
+							        : getResources().getString(R.string.start_system_wifi_fail))
+							    + (isBlueSuccess ? getResources().getString(R.string.start_system_blue_success) 
+							        : getResources().getString(R.string.start_system_blue_fail))
+							    + (isSim1Success ? getResources().getString(R.string.start_system_sim1_success) 
+							        : getResources().getString(R.string.start_system_sim1_fail) )    
+							    + (isSim2Success ? getResources().getString(R.string.start_system_sim2_success) 
+							        : getResources().getString(R.string.start_system_sim2_fail))   
+							    + (isStorageSuccess ? getResources().getString(R.string.start_system_sd_success) 
+							        : getResources().getString(R.string.start_system_sd_fail))  
+							    + (isGpsSuccess ? getResources().getString(R.string.start_system_gps_success) 
+							        : getResources().getString(R.string.start_system_gps_fail)));
+            //mSystemTTS.playText(getResources().getString(R.string.start_system_next_test));
         }
 		isCompleteTest = true;
     }
@@ -191,11 +222,11 @@ public class SystemExtraActivity extends TTSBaseActivity {
     }
 
     private void closeReceiver() {
-        if (mBluetoothAdapter != null){
+        if (mBluetoothAdapter != null && bluetoothState == 0){
             mBluetoothAdapter.disable();
             mBluetoothAdapter = null;
         }
-        if (mWifiManager != null){
+        if (mWifiManager != null && wifiState == 0){//wifi默认关的时候，测试完成后也要关闭
             mWifiManager.setWifiEnabled(false);
         }
     }

@@ -12,6 +12,8 @@ import java.util.List;
 public class IMEIActivity extends TTSBaseActivity {
     private String mIMEIOneString;
     private String mIMEITwoString;
+    private boolean imeiOneSuccess;
+    private boolean imeiTwoSuccess;
     @Override
     protected void initData() {
         List<String> deviceIMEI = getDeviceIMEI();
@@ -32,15 +34,22 @@ public class IMEIActivity extends TTSBaseActivity {
 
     private void playText(List<String> deviceIMEI) {
         String mBuildPlayText = getResources().getString(R.string.start_imei);
+        String mBuildPlayText_fail = getResources().getString(R.string.start_imei_fail);
         if (deviceIMEI != null && deviceIMEI.get(0) != null){
             mIMEIOneString = deviceIMEI.get(0).substring(8);
         }
         if (deviceIMEI != null && deviceIMEI.get(1) != null){
             mIMEITwoString = deviceIMEI.get(1).substring(8);
         }
-        String mPlayText = String.format(mBuildPlayText, mIMEIOneString,mIMEITwoString);
-        if (mSystemTTS != null){
-            mSystemTTS.playText(mPlayText);
+        //String mPlayText = String.format(mBuildPlayText, mIMEIOneString,mIMEITwoString);
+        if(mIMEIOneString != null && !"".equals(mIMEIOneString)){
+            imeiOneSuccess = true;
+        }
+        if(mIMEITwoString != null && !"".equals(mIMEITwoString)){
+            imeiTwoSuccess = true;
+        }
+        if (mSystemTTS != null){//双卡IMEI都写入则判定成功
+            mSystemTTS.playText((imeiTwoSuccess && imeiTwoSuccess) ? mBuildPlayText : mBuildPlayText_fail);
         }
     }
 

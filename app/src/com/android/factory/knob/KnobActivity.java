@@ -16,30 +16,10 @@ import com.android.factory.headset.HeadSetActivity;
  * KNOB测试
  */
 public class KnobActivity extends TTSBaseActivity {
-    private static final String STEPLESS_KNOB_UP[]={
-            "com.talkpod.channel.left",
-            "com.comlins.channel.left",
-            "android.intent.action.CHANNELUP.down",
-            "com.dfl.channel.left"
-    };
-    private static final String STEPLESS_KNOB_DOWN[]={
-            "com.talkpod.channel.right",
-            "com.comlins.channel.right",
-            "android.intent.action.CHANNELDOWN.down",
-            "com.dfl.channel.right"
-    };
-    //软开机
-    private static final String POWERKEY_ON[]={
-            "com.talkpod.soft.power.on",
-            "com.comlins.soft.power.on",
-            "com.xwh.action.POWERKEY_ON"
-    };
-    //软关机
-    private static final String POWERKEY_OFF[]={
-            "com.talkpod.soft.power.off",
-            "com.comlins.soft.power.off",
-            "com.xwh.action.POWERKEY_OFF"
-    };
+    private static final String STEPLESS_KNOB_UP = "com.custom.channel.up";
+    private static final String STEPLESS_KNOB_DOWN= "com.custom.channel.right";
+    private static final String POWERKEY_ON ="com.custom.power.on";
+    private static final String POWERKEY_OFF = "com.custom.power.off";
 
     private boolean isKnobKeyDown;
     private boolean isKnobKeyUp;
@@ -51,7 +31,6 @@ public class KnobActivity extends TTSBaseActivity {
     private int mKnobKeyUpResult;
     private int mPowerOnResult;
     private int mPowerOffResult;
-    private long[] mHits = new long[3];
 
     @Override
     protected void initData() {
@@ -65,18 +44,10 @@ public class KnobActivity extends TTSBaseActivity {
 
     private void registerCustomReceiver() {
         IntentFilter mIntentFilter = new IntentFilter();
-        for (String mKnobUpAction : STEPLESS_KNOB_UP) {
-            mIntentFilter.addAction(mKnobUpAction);
-        }
-        for (String mKnobDownAction : STEPLESS_KNOB_DOWN) {
-            mIntentFilter.addAction(mKnobDownAction);
-        }
-        for (String mPowerOnAction : POWERKEY_ON) {
-            mIntentFilter.addAction(mPowerOnAction);
-        }
-        for (String mPowerOffAction : POWERKEY_OFF) {
-            mIntentFilter.addAction(mPowerOffAction);
-        }
+        mIntentFilter.addAction(STEPLESS_KNOB_UP);
+        mIntentFilter.addAction(STEPLESS_KNOB_DOWN);
+        mIntentFilter.addAction(POWERKEY_ON);
+        mIntentFilter.addAction(POWERKEY_OFF);
         registerReceiver(mKnobBroadCastReceiver,mIntentFilter);
     }
 
@@ -105,9 +76,9 @@ public class KnobActivity extends TTSBaseActivity {
             mGlobalHandler.removeCallbacks(startKnobCodeComplete);
             mGlobalHandler.postDelayed(startKnobCodeComplete, 10*1000);
         }
-        if (isAllTestSuccess){
-            isTTSComplete = true;
-        }
+        //if (isAllTestSuccess){//旋钮测试和按键测试无关则
+        isTTSComplete = true;
+        //}
     }
 
     private final Runnable startKnobCodeComplete = new Runnable() {
@@ -178,25 +149,17 @@ public class KnobActivity extends TTSBaseActivity {
 
 
     private void compareCurrentAction(String mCurrentAction) {
-        for (String s : STEPLESS_KNOB_UP) {
-            if (mCurrentAction.equals(s)) {
-                mKnobKeyDownResult = 1;
-            }
+        if (mCurrentAction.equals(STEPLESS_KNOB_UP)) {
+            mKnobKeyDownResult = 1;
         }
-        for (String s : STEPLESS_KNOB_DOWN) {
-            if (mCurrentAction.equals(s)) {
-                mKnobKeyUpResult = 1;
-            }
+        if (mCurrentAction.equals(STEPLESS_KNOB_DOWN)) {
+            mKnobKeyUpResult = 1;
         }
-        for (String s : POWERKEY_ON) {
-            if (mCurrentAction.equals(s)) {
-                mPowerOnResult = 1;
-            }
+        if (mCurrentAction.equals(POWERKEY_ON)) {
+            mPowerOnResult = 1;
         }
-        for (String s : POWERKEY_OFF) {
-            if (mCurrentAction.equals(s)) {
-                mPowerOffResult = 1;
-            }
+        if (mCurrentAction.equals(POWERKEY_OFF)) {
+            mPowerOffResult = 1;
         }
     }
 
@@ -216,34 +179,27 @@ public class KnobActivity extends TTSBaseActivity {
         }
     };
 
-    public void sendBroadCastKnobDown(){
-        for (String s : STEPLESS_KNOB_DOWN) {
-            mBroadCastIntent.setAction(s);
-            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
-        }
+   public void sendBroadCastKnobDown(){
+        mBroadCastIntent.setAction(STEPLESS_KNOB_DOWN);
+        mContext.sendBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
 		playAudio(this);
     }
     public void sendBroadCastKnobUp(){
-        for (String s : STEPLESS_KNOB_UP) {
-            mBroadCastIntent.setAction(s);
-            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
-        }
+        mBroadCastIntent.setAction(STEPLESS_KNOB_UP);
+        mContext.sendBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
 		playAudio(this);
     }
     public void sendBroadCastPowerOn(){
-        for (String s : POWERKEY_ON) {
-            mBroadCastIntent.setAction(s);
-            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
-        }
+        mBroadCastIntent.setAction(POWERKEY_ON);
+        mContext.sendBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
 		playAudio(this);
     }
     public void sendBroadCastPowerOff(){
-        for (String s : POWERKEY_OFF) {
-            mBroadCastIntent.setAction(s);
-            mContext.sendStickyBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
-        }
+        mBroadCastIntent.setAction(POWERKEY_OFF);
+        mContext.sendBroadcastAsUser(mBroadCastIntent, UserHandle.ALL);
 		playAudio(this);
     }
+    
     public boolean isKeyDownComplete(){
         return isKnobKeyDown && isKnobKeyUp && isPowerKeyDown && isPowerKeyUp;
     }

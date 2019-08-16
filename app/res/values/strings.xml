@@ -1,43 +1,44 @@
 <resources>
     <string name="app_name">TTSFactoryMode</string>
-    <string name="start_test">开启工厂测试,请语音结束后按自定义按键开始测试</string>
-    <string name="start_version">系统版本测试,版本号:%1$s,时间:%2$s,请按自定义按键继续测试</string>
-    <string name="start_imei">IMEI测试,IMEI号(sim卡1):%1$s,(sim卡2):%2$s,按自定义键进入下一测试项</string>
-    <string name="start_keycode">按键测试,所有按键测试完成后按自定义键进入下一测试项</string>
-    <string name="start_led">指示灯测试,红、蓝、绿，三色循环亮灯,按自定义键进入下一测试项</string>
+    <string name="start_test">开启工厂测试,语音结束后按自定义按键进入下一项开始测试</string>
+    <string name="start_version">系统版本测试,版本号:%1$s,时间:%2$s</string>
+    <string name="start_imei">IMEI测试,IMEI测试成功</string>
+    <string name="start_imei_fail">IMEI测试,IMEI测试失败</string> 
+    <string name="start_keycode">按键测试</string>
+    <string name="start_led">指示灯测试,红、蓝、绿，三色循环亮灯</string>
     <string name="start_headset">耳机测试，请插入耳机</string>
     <string name="start_key_fail">按键测试失败,可重新按键测试</string>
-    <string name="start_key_success">按键测试成功,按自定义键进入下一测试项</string>
-    <string name="start_knob">旋钮测试,测试完成后按自定义键进入下一测试项</string>
+    <string name="start_key_success">按键测试成功</string>
+    <string name="start_knob">旋钮测试</string>
     <string name="start_knob_fail">旋钮测试失败,可重新测试</string>
-    <string name="start_knob_success">旋钮测试成功,按自定义键进入下一测试项</string>
-    <string name="start_mic">MIC测试,测试完成后按自定义键进入下一测试项</string>
-    <string name="start_horn">喇叭测试,测试完成后按自定义键进入下一测试项</string>
+    <string name="start_knob_success">旋钮测试成功</string>
+    <string name="start_mic">MIC测试</string>
+    <string name="start_horn">喇叭测试</string>
     <string name="start_usb">USB测试,请插入USB</string>
     <string name="start_usb_fail">USB测试失败</string>
     <string name="start_usb_success">USB测试成功</string>
     <string name="start_system">安卓系统测试</string>
     <string name="start_system_waiting">正在测试,请稍候</string>
-    <string name="start_system_success">测试完成,系统测试成功</string>
-    <string name="start_system_complete">测试完成</string>
-    <string name="start_system_blue_fail">系统蓝牙测试失败</string>
-    <string name="start_system_blue_success">系统蓝牙测试成功</string>
-    <string name="start_system_wifi_fail">系统Wi-Fi测试失败</string>
-    <string name="start_system_wifi_success">系统Wi-Fi测试成功</string>
-   <string name="start_system_sd_fail">系统SD卡测试失败</string>
-    <string name="start_system_sd_success">系统SD卡测试成功</string>
-    <string name="start_system_sim_fail">系统Sim卡测试失败</string>
-    <string name="start_system_sim_success">系统Sim卡测试成功</string>
+    <string name="start_system_success">测试完成,系统测试成功,</string>
+    <string name="start_system_complete">测试完成,</string>
+    <string name="start_system_blue_fail">系统蓝牙测试失败,</string>
+    <string name="start_system_blue_success">系统蓝牙测试成功,</string>
+    <string name="start_system_wifi_fail">系统Wi-Fi测试失败,</string>
+    <string name="start_system_wifi_success">系统Wi-Fi测试成功,</string>
+   <string name="start_system_sd_fail">系统SD卡测试失败,</string>
+    <string name="start_system_sd_success">系统SD卡测试成功,</string>
+    <string name="start_system_sim_fail">系统Sim卡测试失败,</string>
+    <string name="start_system_sim_success">系统Sim卡测试成功,</string>
 
-	<string name="start_system_sim1_fail">系统Sim卡1测试失败</string>
-    <string name="start_system_sim1_success">系统Sim卡1测试成功</string>
-	<string name="start_system_sim2_fail">系统Sim卡2测试失败</string>
-    <string name="start_system_sim2_success">系统Sim卡2测试成功</string>
+	<string name="start_system_sim1_fail">系统Sim卡1测试失败,</string>
+    <string name="start_system_sim1_success">系统Sim卡1测试成功,</string>
+	<string name="start_system_sim2_fail">系统Sim卡2测试失败,</string>
+    <string name="start_system_sim2_success">系统Sim卡2测试成功,</string>
 	
-    <string name="start_system_gps_fail">系统GPS测试失败</string>
-    <string name="start_system_gps_success">系统GPS测试成功</string>
-    <string name="start_system_next_test">按自定义键进入下一测试项</string>
-    <string name="start_system_reset">恢复出厂设置测试,语音结束后按连续点击2次自定义按键开始测试</string>
+    <string name="start_system_gps_fail">系统GPS测试失败,</string>
+    <string name="start_system_gps_success">系统GPS测试成功,</string>
+    <string name="start_system_next_test">测试完成,</string>
+    <string name="start_system_reset">恢复出厂设置测试,语音结束后按自定义按键开始测试</string>
 </resources>
 
 

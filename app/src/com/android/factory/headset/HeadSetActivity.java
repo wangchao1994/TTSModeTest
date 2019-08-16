@@ -16,7 +16,7 @@ import com.android.factory.mic.MicPhoneActivity;
 
 import java.io.File;
 import java.io.IOException;
-
+import android.media.AudioSystem;
 public class HeadSetActivity extends TTSBaseActivity {
     private final String RECORD_PATH = Environment.getExternalStorageDirectory() + File.separator + "HeadSetTestTTSAmr.amr";
     private static final int TEST_IDLE = 0;
@@ -25,8 +25,7 @@ public class HeadSetActivity extends TTSBaseActivity {
     private int curTestState = TEST_IDLE;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
-    private boolean isPlaySuccess = false;
-
+    private boolean isStartRecord;
     @Override
     protected void initData() {
         playHeadSetText();
@@ -64,9 +63,12 @@ public class HeadSetActivity extends TTSBaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+                Log.d("startRecord", "create onKeyDown------->" + isStartRecord);
         if (keyCode == KeyEvent.KEYCODE_EXTERNAL_PTT_TX) {
-            if (mGlobalHandler != null){
+            if (mGlobalHandler != null && !isStartRecord){
+                mGlobalHandler.removeCallbacks(startRecordRunnable);
                 mGlobalHandler.postDelayed(startRecordRunnable,200);//避免短按录音初始化参数异常
+                isStartRecord = true;
             }
             return true;
         }
@@ -75,10 +77,7 @@ public class HeadSetActivity extends TTSBaseActivity {
 
     @Override
     protected void startActivityIntentClass() {
-        Log.i("lx_log"," isPlaySuccess == " + isPlaySuccess);
-        if (isPlaySuccess){
-            startActivityIntent(this, MicPhoneActivity.class);
-        }
+        startActivityIntent(this, MicPhoneActivity.class);//成功与否客户主观决定
     }
 
 
@@ -94,18 +93,15 @@ public class HeadSetActivity extends TTSBaseActivity {
             if (curTestState == TEST_IDLE) {
                 curTestState = TEST_RECORDERING;
                 startRecord();
-                Log.d("startRecord", "voidStartRecord create startRecord------->");
             } else if (curTestState == TEST_PLAYYING) {
                 curTestState = TEST_IDLE;
                 stopPlay();
-                Log.d("startRecord", "voidStartRecord create stopPlay------->");
             }
         }
     }
 
     private void playRecordFile() {
-        Log.d("startRecord", "create playRecordFile------->");
-        if (mMediaPlayer == null) {
+        if(mMediaPlayer == null){
             mMediaPlayer = new MediaPlayer();
         }
         mMediaPlayer.reset();
@@ -116,7 +112,8 @@ public class HeadSetActivity extends TTSBaseActivity {
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                    isPlaySuccess = true;
+                    isStartRecord = false;
+                    curTestState = TEST_IDLE;
                 }
             });
         } catch (IllegalStateException e) {
@@ -124,38 +121,43 @@ public class HeadSetActivity extends TTSBaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        isStartRecord = false;
+        curTestState = TEST_IDLE;
     }
 
     private void startRecord() {
-        Log.d("startRecord", "create startRecord------->");
         File mOutRecordFile = new File(RECORD_PATH);
         if (!mOutRecordFile.exists()) {
             try {
                 boolean newFile = mOutRecordFile.createNewFile();
-                Log.d("startRecord", "create newFile------->" + newFile);
+                Log.d("startRecord", "create startRecord newFile------->" + newFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (mMediaRecorder == null) {
+        Log.d("startRecord", "create startRecord MediaRecorder------->" );
+        if(mMediaRecorder == null){
             mMediaRecorder = new MediaRecorder();
         }
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mMediaRecorder.setOutputFile(mOutRecordFile.getAbsolutePath());
+        //AudioSystem.setParameters("SET_MIC_CHOOSE=0");
+        //AudioSystem.setParameters("LRChannelSwitch=1");
+        //AudioSystem.setParameters("SET_MIC_CHOOSE=1");
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
-            Log.d("startRecord", "create newFile------->" + mMediaRecorder);
         } catch (IOException e) {
+            Log.d("startRecord", "startRecord IOException------->" + e);
             e.printStackTrace();
         }
     }
 
     private void stopRecorder() {
-        Log.d("startRecord", "create stopRecorder------->");
         if (mMediaRecorder != null) {
+            isStartRecord = false;
             setErrorListener();
             try {
                 mMediaRecorder.stop();
@@ -171,7 +173,7 @@ public class HeadSetActivity extends TTSBaseActivity {
     }
 
     private void stopPlay() {
-        Log.d("startRecord", "create stopPlay------->");
+        isStartRecord = false;
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
@@ -185,7 +187,6 @@ public class HeadSetActivity extends TTSBaseActivity {
             if (mGlobalHandler != null){
                 mGlobalHandler.removeCallbacks(startRecordRunnable);
             }
-            Log.d("startRecord", "onKeyUp headSetConnected--3---->=" + (curTestState == TEST_RECORDERING));
             if (curTestState == TEST_RECORDERING) {
                 curTestState = TEST_PLAYYING;
                 stopRecorder();

@@ -45,7 +45,9 @@ public class LEDActivity extends TTSBaseActivity {
             mTimer.cancel();
         }
         setCurrentLEDVales(3,mContext);//close led
-        mGlobalHandler.removeCallbacks(startLEDFactoryMode);
+        if(mGlobalHandler != null){
+            mGlobalHandler.removeCallbacks(startLEDFactoryMode);
+        }
     }
 
     private final Runnable startLEDFactoryMode = new Runnable() {

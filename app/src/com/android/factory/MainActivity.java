@@ -2,7 +2,7 @@ package com.android.factory;
 
 import android.os.Message;
 import android.util.Log;
-import com.android.factory.device.DeviceVersionActivity;
+import com.android.factory.headset.HeadSetActivity;
 
 public class MainActivity extends TTSBaseActivity{
     @Override
@@ -27,7 +27,7 @@ public class MainActivity extends TTSBaseActivity{
 
     @Override
     protected void startActivityIntentClass() {
-        startActivityIntent(this, DeviceVersionActivity.class);
+        startActivityIntent(this, HeadSetActivity.class);
     }
 
     @Override

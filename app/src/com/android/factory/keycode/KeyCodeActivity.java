@@ -47,7 +47,6 @@ public class KeyCodeActivity extends TTSBaseActivity {
 
     @Override
     public void systemTTSComplete() {
-        Log.d("speech_log","KeyCodeActivity speechComplete----------------->");
         if (mGlobalHandler != null && !isKeyCodeSuccess){
             mGlobalHandler.removeCallbacks(startKeyCodeComplete);
             mGlobalHandler.postDelayed(startKeyCodeComplete, 10*1000);
@@ -75,17 +74,17 @@ public class KeyCodeActivity extends TTSBaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("knob_log","onKeyDown------------>"+ keyCode);
         switch (keyCode){
-            case KeyEvent.KEYCODE_BACK://有屏暂时代替测试
-                return true;
-            case KeyEvent.KEYCODE_EXTERNAL_1://无屏测试
+            case KeyEvent.KEYCODE_BACK://无屏测试
                 if (!isTTSComplete){//没有测试成功
                     voidStartNextItem();
-                }else if(event.getRepeatCount() == 0){
+                }/*else if(event.getRepeatCount() == 0){
                     startActivityIntentClass();
-                }
+                }*/
                 return true;
             case KeyEvent.KEYCODE_EXTERNAL_PTT_TX:
+                Log.d("knob_log","onKeyDown---PTT_TX--------->"+ keyCode);
                 key_external_ptt_tx_tested = true;
                 voidStartIntentNextTestItem();
                 return true;
@@ -100,12 +99,13 @@ public class KeyCodeActivity extends TTSBaseActivity {
         }
         return super.onKeyDown(keyCode,event);
     }
-
+    
+    //解决重复按键测试失败后无法进行下一项测试
     private void voidStartNextItem() {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
         mHits[mHits.length-1] = SystemClock.uptimeMillis();
-        Log.d("startReset","voidStartReset------------->"+mHits[0]);
         if ((SystemClock.uptimeMillis()-mHits[0]) <= 1500) {
+            startPlaySystemRing(mContext);
             startActivityIntentClass();
         }else{
             key_external_1_tested = true;
@@ -141,9 +141,6 @@ public class KeyCodeActivity extends TTSBaseActivity {
     };
 
     private void startPlaySystemRing(Context context){
-        /*Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone mRingtone = RingtoneManager.getRingtone(context.getApplicationContext(), uri);
-        mRingtone.play();*/
-		playAudio(this);
+		playAudio(context);
     }
 }
